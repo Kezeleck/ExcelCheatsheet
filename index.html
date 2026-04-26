@@ -285,6 +285,29 @@ a {
   font-weight: 600;
 }
 
+/* ===== TABLE FIX ===== */
+
+/* Make all tables scroll on mobile */
+@media (max-width: 768px) {
+  table {
+    display: block;
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+}
+
+/* Ensure wrapper scroll works */
+.xl-grid-wrap {
+  overflow-x: auto;
+  width: 100%;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Prevent table from shrinking */
+.xl-grid {
+  min-width: 600px;
+} 
 </style>
 </head>
 <body>
