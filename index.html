@@ -1,0 +1,2131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Microsoft Excel — The Complete Cheatsheet</title>
+<style>
+:root{
+  --xl-green:#107C41;
+  --xl-green-dark:#0E6537;
+  --xl-green-darker:#0B5132;
+  --xl-green-light:#E7F3EC;
+  --xl-green-tint:#F1F8F4;
+  --ink:#242424;
+  --ink-2:#424242;
+  --ink-3:#605E5C;
+  --ink-4:#8A8886;
+  --paper:#FFFFFF;
+  --surface:#FAF9F8;
+  --surface-2:#F3F2F1;
+  --surface-3:#EDEBE9;
+  --border:#E1DFDD;
+  --border-2:#D2D0CE;
+  --border-strong:#A19F9D;
+  --header-row:#F3F2F1;
+  --selection:#CFE7DA;
+  --formula-blue:#0F6CBD;
+  --red:#D13438;
+  --amber:#FFB900;
+  --orange:#D83B01;
+  --teal:#038387;
+  --purple:#5C2D91;
+  --font-ui:'Segoe UI',-apple-system,BlinkMacSystemFont,system-ui,Roboto,'Helvetica Neue',Arial,sans-serif;
+  --font-mono:'Consolas','Cascadia Code','SF Mono',Menlo,Monaco,'Courier New',monospace;
+  --shadow-sm:0 1px 2px rgba(0,0,0,.04),0 1px 1px rgba(0,0,0,.06);
+  --shadow:0 2px 4px rgba(0,0,0,.04),0 4px 8px rgba(0,0,0,.06);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;font-size:14px}
+body{font-family:var(--font-ui);font-size:14px;line-height:1.55;color:var(--ink);background:var(--surface);-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+
+.app-header{position:sticky;top:0;z-index:100;background:var(--xl-green);color:#fff;border-bottom:1px solid var(--xl-green-darker)}
+.app-header-inner{display:flex;align-items:center;padding:0 20px;height:48px;gap:24px}
+.app-logo{display:flex;align-items:center;gap:10px;font-weight:600;font-size:14px;letter-spacing:.2px}
+.app-logo-icon{width:24px;height:24px;background:#fff;color:var(--xl-green);display:grid;place-items:center;font-weight:700;font-size:14px;border-radius:2px}
+.app-title{font-size:13px;opacity:.92}
+.app-meta{margin-left:auto;display:flex;gap:20px;font-size:12px;opacity:.85}
+.app-meta strong{color:#fff;font-weight:600;opacity:1}
+
+.ribbon{background:var(--paper);border-bottom:1px solid var(--border);padding:0 20px;height:38px;display:flex;align-items:center;gap:2px;font-size:13px;overflow-x:auto;scrollbar-width:thin}
+.ribbon-tab{padding:0 14px;height:38px;display:flex;align-items:center;color:var(--ink-2);cursor:default;border-bottom:2px solid transparent;white-space:nowrap;text-decoration:none;transition:background .12s}
+.ribbon-tab:hover{background:var(--surface-2)}
+.ribbon-tab.active{color:var(--xl-green);font-weight:600;border-bottom-color:var(--xl-green)}
+
+.layout{display:grid;grid-template-columns:280px 1fr;max-width:1400px;margin:0 auto;background:var(--paper);min-height:calc(100vh - 86px);border-left:1px solid var(--border);border-right:1px solid var(--border)}
+.sidebar{position:sticky;top:86px;height:calc(100vh - 86px);overflow-y:auto;background:var(--surface);border-right:1px solid var(--border);padding:16px 0;scrollbar-width:thin}
+.sidebar h4{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.6px;color:var(--ink-3);padding:14px 20px 6px}
+.sidebar h4:first-of-type{padding-top:0}
+.sidebar a{display:flex;align-items:center;padding:6px 20px;color:var(--ink-2);text-decoration:none;font-size:13px;border-left:3px solid transparent;transition:background .1s,color .1s,border-color .1s}
+.sidebar a:hover{background:var(--surface-2);color:var(--ink);border-left-color:var(--xl-green)}
+.sidebar a .num{display:inline-block;width:28px;font-variant-numeric:tabular-nums;color:var(--ink-4);font-size:12px}
+.sidebar a:hover .num{color:var(--xl-green)}
+
+.main{padding:0;min-width:0}
+.content{padding:32px 48px 80px;max-width:920px}
+
+.hero{background:linear-gradient(135deg,var(--xl-green) 0%,var(--xl-green-darker) 100%);color:#fff;padding:48px 48px 40px;position:relative;overflow:hidden}
+.hero::before{content:"";position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.05) 1px,transparent 1px);background-size:24px 24px;pointer-events:none}
+.hero-eyebrow{font-size:11px;text-transform:uppercase;letter-spacing:1.2px;opacity:.85;margin-bottom:12px;font-weight:600;position:relative}
+.hero h1{font-size:38px;font-weight:600;line-height:1.15;margin-bottom:14px;letter-spacing:-.5px;position:relative}
+.hero p{font-size:15px;max-width:620px;opacity:.95;line-height:1.6;position:relative}
+.hero-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:0;margin-top:32px;position:relative;border-top:1px solid rgba(255,255,255,.2);border-bottom:1px solid rgba(255,255,255,.2)}
+.hero-stat{padding:16px 16px 16px 0;border-right:1px solid rgba(255,255,255,.15)}
+.hero-stat:last-child{border-right:none}
+.hero-stat-num{font-size:24px;font-weight:600;display:block;font-variant-numeric:tabular-nums;letter-spacing:-.5px}
+.hero-stat-label{font-size:11px;text-transform:uppercase;letter-spacing:.8px;opacity:.8;margin-top:2px}
+
+.part-divider{display:flex;align-items:center;gap:16px;margin:64px 0 24px;padding-bottom:12px;border-bottom:2px solid var(--xl-green)}
+.part-num{background:var(--xl-green);color:#fff;font-size:11px;font-weight:700;padding:4px 10px;letter-spacing:1px;border-radius:2px}
+.part-title{font-size:20px;font-weight:600;color:var(--ink);letter-spacing:-.2px}
+
+section.chapter{padding:32px 0;border-bottom:1px solid var(--border)}
+section.chapter:last-child{border-bottom:none}
+.chapter-head{display:flex;align-items:baseline;gap:16px;margin-bottom:20px;flex-wrap:wrap}
+.chapter-num{font-size:13px;color:var(--xl-green);font-weight:700;font-variant-numeric:tabular-nums;letter-spacing:.5px}
+.chapter h2{font-size:24px;font-weight:600;color:var(--ink);letter-spacing:-.3px;flex:1}
+.tag{display:inline-block;font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.6px;padding:3px 8px;border-radius:2px;border:1px solid}
+.tag-beginner{color:#0E6537;border-color:#92D5A9;background:#E7F3EC}
+.tag-intermediate{color:#0F6CBD;border-color:#A6CFEE;background:#EFF6FC}
+.tag-advanced{color:#5C2D91;border-color:#C7AEDD;background:#F3EDF8}
+.tag-expert{color:#A4262C;border-color:#F0B9BC;background:#FDF3F4}
+.chapter h3{font-size:16px;font-weight:600;color:var(--ink);margin:24px 0 10px;letter-spacing:-.1px}
+.chapter h4{font-size:13px;font-weight:600;color:var(--ink-2);margin:18px 0 8px;text-transform:uppercase;letter-spacing:.5px}
+.chapter p{margin-bottom:12px;color:var(--ink-2)}
+.chapter p strong{color:var(--ink);font-weight:600}
+.chapter ul,.chapter ol{margin:8px 0 14px 22px;color:var(--ink-2)}
+.chapter li{margin-bottom:4px}
+.chapter li::marker{color:var(--ink-4)}
+
+code{font-family:var(--font-mono);font-size:.92em;background:var(--surface-2);padding:1px 5px;border-radius:2px;border:1px solid var(--border);color:var(--ink)}
+kbd{font-family:var(--font-ui);font-size:11px;font-weight:600;display:inline-block;padding:2px 7px;border:1px solid var(--border-2);border-bottom-width:2px;border-radius:3px;background:#fff;color:var(--ink);box-shadow:var(--shadow-sm);white-space:nowrap;line-height:1.2;vertical-align:baseline}
+
+/* Excel example component */
+.xl-example{margin:14px 0 18px;border:1px solid var(--border-2);border-radius:4px;overflow:hidden;background:#fff;box-shadow:var(--shadow-sm)}
+.xl-example-label{background:var(--surface-2);padding:6px 12px;font-size:11px;text-transform:uppercase;letter-spacing:.6px;color:var(--ink-3);font-weight:600;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;gap:10px}
+.xl-example-label .xl-tab{font-size:11px;background:#fff;padding:2px 8px;border-radius:2px;color:var(--ink-2);border:1px solid var(--border);text-transform:none;letter-spacing:0}
+.xl-formula-bar{display:flex;align-items:stretch;border-bottom:1px solid var(--border);background:#fff;font-family:var(--font-mono);font-size:13px;min-height:28px}
+.xl-name-box{width:80px;padding:5px 8px;border-right:1px solid var(--border);background:var(--surface);font-size:12px;color:var(--ink-2);display:flex;align-items:center;font-family:var(--font-ui)}
+.xl-fx{width:32px;display:grid;place-items:center;border-right:1px solid var(--border);background:var(--surface);font-style:italic;font-family:'Cambria Math','Times New Roman',serif;color:var(--ink-3);font-size:14px}
+.xl-formula-text{flex:1;padding:5px 10px;display:flex;align-items:center;color:var(--ink);overflow-x:auto;white-space:nowrap}
+.xl-grid-wrap{overflow-x:auto}
+.xl-grid{width:100%;border-collapse:collapse;font-size:13px;background:#fff;font-variant-numeric:tabular-nums}
+.xl-grid th,.xl-grid td{border:1px solid var(--border);padding:5px 8px;text-align:left;vertical-align:middle;height:24px;min-width:80px}
+.xl-grid thead th{background:var(--header-row);text-align:center;font-weight:600;color:var(--ink-3);font-size:12px;width:36px;min-width:36px}
+.xl-grid thead th:first-child{width:32px;min-width:32px}
+.xl-grid tbody th{background:var(--header-row);text-align:center;font-weight:600;color:var(--ink-3);font-size:12px;width:32px;min-width:32px;padding:3px 6px}
+.xl-grid td.num{text-align:right;font-variant-numeric:tabular-nums}
+.xl-grid td.center{text-align:center}
+.xl-grid td.formula-cell{background:var(--xl-green-light);color:var(--xl-green-darker);font-weight:600;position:relative}
+.xl-grid td.input-cell{background:#FFF8E1}
+.xl-grid td.error-cell{background:#FDE7E9;color:var(--red);font-family:var(--font-mono)}
+.xl-grid td.header-cell{background:var(--surface-2);font-weight:600;color:var(--ink)}
+.xl-grid td.spill-cell{background:#F0F8F4;color:var(--xl-green-darker);border-color:#A8D5BC}
+.xl-result{background:var(--surface);padding:8px 12px;border-top:1px solid var(--border);font-size:12px;color:var(--ink-3)}
+.xl-result strong{color:var(--ink);font-weight:600}
+.xl-result code{background:var(--paper)}
+
+/* Inline mini formula */
+.xl-mini{display:inline-flex;align-items:center;background:var(--surface-2);border:1px solid var(--border);border-radius:3px;padding:2px 8px;font-family:var(--font-mono);font-size:12px;margin:2px 4px 2px 0;gap:6px}
+.xl-mini .arr{color:var(--ink-4)}
+.xl-mini .res{color:var(--xl-green-darker);font-weight:600}
+
+.callout{margin:14px 0;padding:12px 14px 12px 16px;border-radius:3px;border-left:3px solid;background:var(--surface);font-size:13px;color:var(--ink-2)}
+.callout-title{font-weight:600;text-transform:uppercase;font-size:10px;letter-spacing:.8px;margin-bottom:4px;display:flex;align-items:center;gap:6px}
+.callout-tip{border-left-color:var(--xl-green);background:var(--xl-green-tint)}
+.callout-tip .callout-title{color:var(--xl-green-dark)}
+.callout-warn{border-left-color:var(--orange);background:#FFF4E5}
+.callout-warn .callout-title{color:var(--orange)}
+.callout-info{border-left-color:var(--formula-blue);background:#EFF6FC}
+.callout-info .callout-title{color:var(--formula-blue)}
+.callout-error{border-left-color:var(--red);background:#FDF3F4}
+.callout-error .callout-title{color:var(--red)}
+
+table.ref{width:100%;border-collapse:collapse;margin:12px 0 18px;font-size:13px;background:#fff;border:1px solid var(--border)}
+table.ref th,table.ref td{text-align:left;padding:7px 12px;border-bottom:1px solid var(--border);vertical-align:top}
+table.ref thead th{background:var(--surface-2);color:var(--ink);font-weight:600;font-size:12px;text-transform:uppercase;letter-spacing:.4px;border-bottom:2px solid var(--border-2)}
+table.ref tbody tr:hover{background:var(--surface)}
+table.ref tbody tr:last-child td{border-bottom:none}
+table.ref code{background:var(--surface-2);font-size:12px}
+
+.kbd-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px 18px;margin:10px 0 16px;font-size:13px}
+.kbd-row{display:flex;justify-content:space-between;align-items:center;padding:6px 0;border-bottom:1px dotted var(--border);gap:12px}
+.kbd-row .desc{color:var(--ink-2);flex:1;min-width:0}
+.kbd-row .keys{flex-shrink:0;text-align:right}
+.kbd-row .keys kbd{margin-left:2px}
+
+footer{background:var(--ink);color:#D2D0CE;padding:32px 48px;font-size:13px;border-top:1px solid var(--ink)}
+footer .colophon{max-width:920px}
+footer h4{color:#fff;font-size:11px;text-transform:uppercase;letter-spacing:.8px;margin-bottom:10px}
+footer p{margin-bottom:8px;line-height:1.6;color:#C8C6C4}
+footer .meta-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:32px;margin-top:24px;padding-top:20px;border-top:1px solid #424242}
+
+@media (max-width:980px){
+  .layout{grid-template-columns:1fr}
+  .sidebar{position:relative;top:auto;height:auto;border-right:none;border-bottom:1px solid var(--border);padding:8px 0}
+  .sidebar a{padding:5px 16px}
+  .content{padding:24px 20px 60px}
+  .hero{padding:32px 20px 28px}
+  .hero h1{font-size:28px}
+  .hero-stats{grid-template-columns:repeat(2,1fr)}
+  .hero-stat:nth-child(2){border-right:none}
+  .kbd-grid{grid-template-columns:1fr}
+  footer{padding:24px 20px}
+  footer .meta-grid{grid-template-columns:1fr;gap:20px}
+}
+@media (max-width:640px){
+  .app-meta{display:none}
+  .hero h1{font-size:24px}
+  .chapter h2{font-size:20px}
+}
+@media print{
+  .sidebar,.app-header,.ribbon{display:none}
+  .layout{grid-template-columns:1fr;border:none}
+  .content{padding:0;max-width:none}
+  .chapter,.xl-example{break-inside:avoid;page-break-inside:avoid}
+}
+</style>
+</head>
+<body>
+
+<header class="app-header">
+  <div class="app-header-inner">
+    <div class="app-logo">
+      <div class="app-logo-icon">X</div>
+      <span>Excel</span>
+      <span class="app-title">— The Complete Cheatsheet</span>
+    </div>
+    <div class="app-meta">
+      <span><strong>28</strong> Chapters</span>
+      <span><strong>450+</strong> Functions</span>
+      <span><strong>200+</strong> Shortcuts</span>
+    </div>
+  </div>
+</header>
+
+<nav class="ribbon">
+  <a class="ribbon-tab active" href="#part-1">Foundations</a>
+  <a class="ribbon-tab" href="#part-2">Core</a>
+  <a class="ribbon-tab" href="#part-3">Lookup &amp; Data</a>
+  <a class="ribbon-tab" href="#part-4">Analysis</a>
+  <a class="ribbon-tab" href="#part-5">Modern Excel</a>
+  <a class="ribbon-tab" href="#part-6">Automation</a>
+  <a class="ribbon-tab" href="#part-7">Mastery</a>
+</nav>
+
+<div class="layout">
+  <aside class="sidebar">
+    <h4>I · Foundations</h4>
+    <a href="#ch-01"><span class="num">01</span> Interface &amp; Workbook</a>
+    <a href="#ch-02"><span class="num">02</span> Navigation &amp; Selection</a>
+    <a href="#ch-03"><span class="num">03</span> Keyboard Shortcuts</a>
+    <a href="#ch-04"><span class="num">04</span> Cells, Rows &amp; Columns</a>
+    <a href="#ch-05"><span class="num">05</span> Number Formatting</a>
+    <h4>II · Core Mechanics</h4>
+    <a href="#ch-06"><span class="num">06</span> Formulas &amp; References</a>
+    <a href="#ch-07"><span class="num">07</span> Math &amp; Statistics</a>
+    <a href="#ch-08"><span class="num">08</span> Logical Functions</a>
+    <a href="#ch-09"><span class="num">09</span> Text Functions</a>
+    <a href="#ch-10"><span class="num">10</span> Date &amp; Time</a>
+    <h4>III · Lookup &amp; Data</h4>
+    <a href="#ch-11"><span class="num">11</span> Lookup Functions</a>
+    <a href="#ch-12"><span class="num">12</span> Sort, Filter &amp; Find</a>
+    <a href="#ch-13"><span class="num">13</span> Data Validation</a>
+    <a href="#ch-14"><span class="num">14</span> Excel Tables</a>
+    <a href="#ch-15"><span class="num">15</span> Conditional Formatting</a>
+    <h4>IV · Analysis</h4>
+    <a href="#ch-16"><span class="num">16</span> PivotTables</a>
+    <a href="#ch-17"><span class="num">17</span> Charts &amp; Visualization</a>
+    <a href="#ch-18"><span class="num">18</span> What-If Analysis</a>
+    <h4>V · Modern Excel</h4>
+    <a href="#ch-19"><span class="num">19</span> Dynamic Arrays</a>
+    <a href="#ch-20"><span class="num">20</span> LET &amp; LAMBDA</a>
+    <a href="#ch-21"><span class="num">21</span> Power Query</a>
+    <a href="#ch-22"><span class="num">22</span> Power Pivot &amp; DAX</a>
+    <h4>VI · Automation</h4>
+    <a href="#ch-23"><span class="num">23</span> VBA Foundations</a>
+    <a href="#ch-24"><span class="num">24</span> VBA Advanced</a>
+    <a href="#ch-25"><span class="num">25</span> Office Scripts</a>
+    <h4>VII · Mastery</h4>
+    <a href="#ch-26"><span class="num">26</span> Performance &amp; Scale</a>
+    <a href="#ch-27"><span class="num">27</span> Errors &amp; Debugging</a>
+    <a href="#ch-28"><span class="num">28</span> Expert Tricks</a>
+  </aside>
+
+  <main class="main">
+
+    <section class="hero">
+      <div class="hero-eyebrow">Reference Guide · 2026 Edition</div>
+      <h1>Microsoft Excel<br>The Complete Cheatsheet</h1>
+      <p>Beginner to expert — every formula, every shortcut, every technique. Each concept paired with a worked example showing the formula, the data, and the result.</p>
+      <div class="hero-stats">
+        <div class="hero-stat"><span class="hero-stat-num">28</span><div class="hero-stat-label">Chapters</div></div>
+        <div class="hero-stat"><span class="hero-stat-num">450+</span><div class="hero-stat-label">Functions</div></div>
+        <div class="hero-stat"><span class="hero-stat-num">200+</span><div class="hero-stat-label">Shortcuts</div></div>
+        <div class="hero-stat"><span class="hero-stat-num">100+</span><div class="hero-stat-label">Examples</div></div>
+      </div>
+    </section>
+
+    <div class="content">
+
+<!-- ============= PART I — FOUNDATIONS ============= -->
+<div id="part-1" class="part-divider">
+  <span class="part-num">PART I</span>
+  <span class="part-title">Foundations</span>
+</div>
+
+<section id="ch-01" class="chapter">
+  <div class="chapter-head"><span class="chapter-num">CHAPTER 01</span><h2>The Interface &amp; Workbook Anatomy</h2><span class="tag tag-beginner">Beginner</span></div>
+  <p>An Excel <strong>workbook</strong> (.xlsx) contains one or more <strong>worksheets</strong>. Each worksheet is a grid of <strong>cells</strong> addressed by column letter and row number — <code>A1</code>, <code>BZ47</code>. The grid extends to <code>XFD1048576</code>: <strong>16,384 columns × 1,048,576 rows</strong>.</p>
+
+  <h3>The screen, top to bottom</h3>
+  <table class="ref">
+    <thead><tr><th>Component</th><th>What it does</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Title bar</strong></td><td>File name and AutoSave toggle (cloud-saved files only).</td></tr>
+      <tr><td><strong>Quick Access Toolbar</strong></td><td>Customizable mini-toolbar — add Save, Undo, Format Painter.</td></tr>
+      <tr><td><strong>Ribbon</strong></td><td>Tabbed command surface (Home, Insert, Page Layout, Formulas, Data, Review, View).</td></tr>
+      <tr><td><strong>Name Box</strong></td><td>Active cell address; type any address or named range to jump there.</td></tr>
+      <tr><td><strong>Formula Bar</strong></td><td>Actual content of the active cell — the formula, not the result.</td></tr>
+      <tr><td><strong>Column / Row headers</strong></td><td>Letters across the top, numbers down the side. Click to select entire column / row.</td></tr>
+      <tr><td><strong>Sheet tabs</strong></td><td>Bottom-left — switch, rename, recolor, reorder worksheets.</td></tr>
+      <tr><td><strong>Status bar</strong></td><td>Bottom — shows aggregates of selected cells, zoom, view mode.</td></tr>
+    </tbody>
+  </table>
+
+  <h3>What goes in a cell</h3>
+  <p>Every cell holds either a <strong>constant</strong> (number, text, date, boolean, error) or a <strong>formula</strong> (anything starting with <code>=</code>).</p>
+
+  <div class="xl-example">
+    <div class="xl-example-label"><span>Example · the four content types</span><span class="xl-tab">Sheet1</span></div>
+    <div class="xl-grid-wrap"><table class="xl-grid">
+      <thead><tr><th></th><th>A</th><th>B</th><th>C</th></tr></thead>
+      <tbody>
+        <tr><th>1</th><td class="header-cell">Type</td><td class="header-cell">What you type</td><td class="header-cell">Display</td></tr>
+        <tr><th>2</th><td>Number</td><td>1250</td><td class="num">1250</td></tr>
+        <tr><th>3</th><td>Text</td><td>Quarterly Report</td><td>Quarterly Report</td></tr>
+        <tr><th>4</th><td>Date</td><td>2026-04-26</td><td>26-Apr-26</td></tr>
+        <tr><th>5</th><td>Boolean</td><td>=1&gt;0</td><td class="center">TRUE</td></tr>
+        <tr><th>6</th><td>Formula</td><td>=A2*1.1</td><td class="num formula-cell">1375</td></tr>
+        <tr><th>7</th><td>Error</td><td>=1/0</td><td class="error-cell">#DIV/0!</td></tr>
+      </tbody>
+    </table></div>
+  </div>
+
+  <div class="callout callout-tip">
+    <div class="callout-title">Tip</div>
+    Press <kbd>Ctrl</kbd>+<kbd>`</kbd> (backtick) to toggle <em>Show Formulas</em> mode — every cell shows its formula instead of the result. Brilliant for auditing.
+  </div>
+</section>
+
+<section id="ch-02" class="chapter">
+  <div class="chapter-head"><span class="chapter-num">CHAPTER 02</span><h2>Navigation &amp; Selection</h2><span class="tag tag-beginner">Beginner</span></div>
+  <p>Mouse work is fine for small jobs. To move quickly through real datasets, use the keyboard.</p>
+
+  <h3>Movement</h3>
+  <div class="kbd-grid">
+    <div class="kbd-row"><span class="desc">Move one cell</span><span class="keys"><kbd>↑</kbd> <kbd>↓</kbd> <kbd>←</kbd> <kbd>→</kbd></span></div>
+    <div class="kbd-row"><span class="desc">Edge of data block</span><span class="keys"><kbd>Ctrl</kbd>+<kbd>arrow</kbd></span></div>
+    <div class="kbd-row"><span class="desc">Beginning of row</span><span class="keys"><kbd>Home</kbd></span></div>
+    <div class="kbd-row"><span class="desc">Cell A1</span><span class="keys"><kbd>Ctrl</kbd>+<kbd>Home</kbd></span></div>
+    <div class="kbd-row"><span class="desc">Last used cell</span><span class="keys"><kbd>Ctrl</kbd>+<kbd>End</kbd></span></div>
+    <div class="kbd-row"><span class="desc">Page up / down</span><span class="keys"><kbd>PgUp</kbd> <kbd>PgDn</kbd></span></div>
+    <div class="kbd-row"><span class="desc">Next / previous worksheet</span><span class="keys"><kbd>Ctrl</kbd>+<kbd>PgDn</kbd> / <kbd>PgUp</kbd></span></div>
+    <div class="kbd-row"><span class="desc">Go To dialog</span><span class="keys"><kbd>F5</kbd> or <kbd>Ctrl</kbd>+<kbd>G</kbd></span></div>
+  </div>
+
+  <h3>Selection</h3>
+  <p>Hold <kbd>Shift</kbd> while moving to <em>extend</em> the selection. Hold <kbd>Ctrl</kbd> while clicking to <em>add</em> non-contiguous cells.</p>
+  <div class="kbd-grid">
+    <div class="kbd-row"><span class="desc">Extend by one cell</span><span class="keys"><kbd>Shift</kbd>+<kbd>arrow</kbd></span></div>
+    <div class="kbd-row"><span class="desc">Extend to data edge</span><span class="keys"><kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>arrow</kbd></span></div>
+    <div class="kbd-row"><span class="desc">Select entire column</span><span class="keys"><kbd>Ctrl</kbd>+<kbd>Space</kbd></span></div>
+    <div class="kbd-row"><span class="desc">Select entire row</span><span class="keys"><kbd>Shift</kbd>+<kbd>Space</kbd></span></div>
+    <div class="kbd-row"><span class="desc">Select current region</span><span class="keys"><kbd>Ctrl</kbd>+<kbd>A</kbd></span></div>
+    <div class="kbd-row"><span class="desc">Select entire worksheet</span><span class="keys"><kbd>Ctrl</kbd>+<kbd>A</kbd>+<kbd>A</kbd></span></div>
+  </div>
+
+  <div class="callout callout-tip">
+    <div class="callout-title">The single most useful shortcut</div>
+    <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>↓</kbd> selects from the current cell down to the last non-empty cell — instantly. Pair with <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>End</kbd> to grab everything from here to the end of your data.
+  </div>
+
+  <h3>Go To Special — the power user's secret</h3>
+  <p>Press <kbd>F5</kbd> then <kbd>Alt</kbd>+<kbd>S</kbd>. Lets you select only cells matching a criterion.</p>
+  <table class="ref">
+    <thead><tr><th>Option</th><th>Selects</th><th>Use case</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Constants</strong></td><td>Hard-typed values only</td><td>Wipe inputs, keep formulas intact.</td></tr>
+      <tr><td><strong>Formulas</strong></td><td>All formulas (filterable by error type)</td><td>Find every <code>#REF!</code> in the sheet.</td></tr>
+      <tr><td><strong>Blanks</strong></td><td>Empty cells in the selection</td><td>Fill blank rows with the value above.</td></tr>
+      <tr><td><strong>Visible cells only</strong></td><td>Skips hidden rows/cols</td><td>Copy filtered data without hidden rows.</td></tr>
+      <tr><td><strong>Row / Column differences</strong></td><td>Cells differing from reference</td><td>Spot anomalies in tables.</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section id="ch-03" class="chapter">
+  <div class="chapter-head"><span class="chapter-num">CHAPTER 03</span><h2>Keyboard Shortcuts</h2><span class="tag tag-beginner">Beginner</span><span class="tag tag-intermediate">Intermediate</span></div>
+  <p>Memorize one new shortcut per day for a month and your speed will double.</p>
+
+  <h3>Editing &amp; clipboard</h3>
+  <div class="kbd-grid">
+    <div class="kbd-row"><span class="desc">Edit active cell</span><span class="keys"><kbd>F2</kbd></span></div>
+    <div class="kbd-row"><span class="desc">Confirm and stay</span><span class="keys"><kbd>Ctrl</kbd>+<kbd>Enter</kbd></span></div>
+    <div class="kbd-row"><span class="desc">Confirm and move down/right</span><span class="keys"><kbd>Enter</kbd> / <kbd>Tab</kbd></span></div>
+    <div class="kbd-row"><span class="desc">Cancel edit</span><span class="keys"><kbd>Esc</kbd></span></div>
+    <div class="kbd-row"><span class="desc">Cut / Copy / Paste</span><span class="keys"><kbd>Ctrl</kbd>+<kbd>X</kbd> <kbd>C</kbd> <kbd>V</kbd></span></div>
+    <div class="kbd-row"><span class="desc">Paste Special dialog</span><span class="keys"><kbd>Ctrl</kbd>+<kbd>Alt</kbd>+<kbd>V</kbd></span></div>
+    <div class="kbd-row"><span class="desc">Paste values only</span><span class="keys"><kbd>Ctrl</kbd>+<kbd>Alt</kbd>+<kbd>V</kbd>, <kbd>V</kbd>, <kbd>Enter</kbd></span></div>
+    <div class="kbd-row"><span class="desc">Undo / Redo</span><span class="keys"><kbd>Ctrl</kbd>+<kbd>Z</kbd> / <kbd>Y</kbd></span></div>
+    <div class="kbd-row"><span class="desc">Repeat last action</span><span class="keys"><kbd>F4</kbd> or <kbd>Ctrl</kbd>+<kbd>Y</kbd></span></div>
+    <div class="kbd-row"><span class="desc">Fill down / right</span><span class="keys"><kbd>Ctrl</kbd>+<kbd>D</kbd> / <kbd>R</kbd></span></div>
+    <div class="kbd-row"><span class="desc">Flash Fill</span><span class="keys"><kbd>Ctrl</kbd>+<kbd>E</kbd></span></div>
+    <div class="kbd-row"><span class="desc">Insert hyperlink</span><span class="keys"><kbd>Ctrl</kbd>+<kbd>K</kbd></span></div>
+  </div>
+
+  <h3>Formatting</h3>
+  <div class="kbd-grid">
+    <div class="kbd-row"><span class="desc">Format Cells dialog</span><span class="keys"><kbd>Ctrl</kbd>+<kbd>1</kbd></span></div>
+    <div class="kbd-row"><span class="desc">Bold / Italic / Underline</span><span class="keys"><kbd>Ctrl</kbd>+<kbd>B</kbd> <kbd>I</kbd> <kbd>U</kbd></span></div>
+    <div class="kbd-row"><span class="desc">Number format (1,000.00)</span><span class="keys"><kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>1</kbd></span></div>
+    <div class="kbd-row"><span class="desc">Currency format</span><span class="keys"><kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>4</kbd></span></div>
+    <div class="kbd-row"><span class="desc">Percent format</span><span class="keys"><kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>5</kbd></span></div>
+    <div class="kbd-row"><span class="desc">Date / Time format</span><span class="keys"><kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>3</kbd> / <kbd>2</kbd></span></div>
+    <div class="kbd-row"><span class="desc">General format</span><span class="keys"><kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>~</kbd></span></div>
+    <div class="kbd-row"><span class="desc">Outline border</span><span class="keys"><kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>&amp;</kbd></span></div>
+    <div class="kbd-row"><span class="desc">Remove borders</span><span class="keys"><kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>_</kbd></span></div>
+  </div>
+
+  <h3>Rows, columns, structure</h3>
+  <div class="kbd-grid">
+    <div class="kbd-row"><span class="desc">Insert row/column/sheet</span><span class="keys"><kbd>Ctrl</kbd>+<kbd>+</kbd></span></div>
+    <div class="kbd-row"><span class="desc">Delete row/column</span><span class="keys"><kbd>Ctrl</kbd>+<kbd>-</kbd></span></div>
+    <div class="kbd-row"><span class="desc">Hide row / column</span><span class="keys"><kbd>Ctrl</kbd>+<kbd>9</kbd> / <kbd>0</kbd></span></div>
+    <div class="kbd-row"><span class="desc">Group / Ungroup</span><span class="keys"><kbd>Alt</kbd>+<kbd>Shift</kbd>+<kbd>→</kbd> / <kbd>←</kbd></span></div>
+    <div class="kbd-row"><span class="desc">Insert new sheet</span><span class="keys"><kbd>Shift</kbd>+<kbd>F11</kbd></span></div>
+    <div class="kbd-row"><span class="desc">Convert to Table</span><span class="keys"><kbd>Ctrl</kbd>+<kbd>T</kbd></span></div>
+    <div class="kbd-row"><span class="desc">AutoSum</span><span class="keys"><kbd>Alt</kbd>+<kbd>=</kbd></span></div>
+  </div>
+
+  <h3>Formula bar</h3>
+  <div class="kbd-grid">
+    <div class="kbd-row"><span class="desc">Toggle absolute reference</span><span class="keys"><kbd>F4</kbd> (in edit mode)</span></div>
+    <div class="kbd-row"><span class="desc">Function arguments tooltip</span><span class="keys"><kbd>Ctrl</kbd>+<kbd>A</kbd> after =NAME</span></div>
+    <div class="kbd-row"><span class="desc">Insert function</span><span class="keys"><kbd>Shift</kbd>+<kbd>F3</kbd></span></div>
+    <div class="kbd-row"><span class="desc">Define name</span><span class="keys"><kbd>Ctrl</kbd>+<kbd>F3</kbd></span></div>
+    <div class="kbd-row"><span class="desc">Paste defined name</span><span class="keys"><kbd>F3</kbd></span></div>
+    <div class="kbd-row"><span class="desc">Calculate workbook</span><span class="keys"><kbd>F9</kbd></span></div>
+    <div class="kbd-row"><span class="desc">Calculate sheet</span><span class="keys"><kbd>Shift</kbd>+<kbd>F9</kbd></span></div>
+    <div class="kbd-row"><span class="desc">Evaluate selected expression</span><span class="keys"><kbd>F9</kbd> (in formula bar)</span></div>
+  </div>
+
+  <div class="callout callout-tip">
+    <div class="callout-title">F9 in the formula bar — a debugging superpower</div>
+    Highlight any portion of a formula in edit mode and press <kbd>F9</kbd>. Excel evaluates just that fragment and shows the result in place. <kbd>Esc</kbd> reverts without saving.
+  </div>
+
+  <h3>Files &amp; views</h3>
+  <div class="kbd-grid">
+    <div class="kbd-row"><span class="desc">Save / Save As</span><span class="keys"><kbd>Ctrl</kbd>+<kbd>S</kbd> / <kbd>F12</kbd></span></div>
+    <div class="kbd-row"><span class="desc">Open / New / Print</span><span class="keys"><kbd>Ctrl</kbd>+<kbd>O</kbd> <kbd>N</kbd> <kbd>P</kbd></span></div>
+    <div class="kbd-row"><span class="desc">Find / Replace</span><span class="keys"><kbd>Ctrl</kbd>+<kbd>F</kbd> / <kbd>H</kbd></span></div>
+    <div class="kbd-row"><span class="desc">Show formulas</span><span class="keys"><kbd>Ctrl</kbd>+<kbd>`</kbd></span></div>
+    <div class="kbd-row"><span class="desc">Activate Ribbon (KeyTips)</span><span class="keys"><kbd>Alt</kbd></span></div>
+    <div class="kbd-row"><span class="desc">Tell Me / Search</span><span class="keys"><kbd>Alt</kbd>+<kbd>Q</kbd></span></div>
+    <div class="kbd-row"><span class="desc">Close workbook / Excel</span><span class="keys"><kbd>Ctrl</kbd>+<kbd>W</kbd> / <kbd>Alt</kbd>+<kbd>F4</kbd></span></div>
+  </div>
+</section>
+
+<section id="ch-04" class="chapter">
+  <div class="chapter-head"><span class="chapter-num">CHAPTER 04</span><h2>Cells, Rows &amp; Columns</h2><span class="tag tag-beginner">Beginner</span></div>
+
+  <h3>Sizing</h3>
+  <ul>
+    <li>Drag the boundary in the header to resize.</li>
+    <li><strong>Double-click the right boundary</strong> of a column header to AutoFit width.</li>
+    <li>Select multiple columns first to AutoFit them all simultaneously.</li>
+  </ul>
+
+  <h3>Merging — and why to avoid it</h3>
+  <p>Merging cells creates layout headaches: you can't sort, filter, or reference merged ranges cleanly. The professional alternative is <strong>Center Across Selection</strong>: <kbd>Ctrl</kbd>+<kbd>1</kbd> → <em>Alignment</em> tab → Horizontal: <strong>Center Across Selection</strong>. Visually identical to a merged title — but cells remain independent.</p>
+
+  <h3>Freezing panes</h3>
+  <p><em>View → Freeze Panes</em>. Excel freezes everything <em>above and left</em> of the active cell.</p>
+  <ul>
+    <li>Top row only → click in <strong>A2</strong>, then Freeze Panes.</li>
+    <li>Top row + first column → click in <strong>B2</strong>.</li>
+    <li>First three rows + first two columns → click in <strong>C4</strong>.</li>
+  </ul>
+
+  <h3>Fill handle &amp; series</h3>
+  <p>The small green square at the bottom-right of a selection is the <strong>fill handle</strong>. Drag it to copy or extend a series — Excel detects patterns:</p>
+
+  <div class="xl-example">
+    <div class="xl-example-label"><span>Example · drag the fill handle from row 2 down</span><span class="xl-tab">Series</span></div>
+    <div class="xl-grid-wrap"><table class="xl-grid">
+      <thead><tr><th></th><th>A</th><th>B</th><th>C</th><th>D</th><th>E</th></tr></thead>
+      <tbody>
+        <tr><th>1</th><td class="header-cell">Pattern</td><td class="header-cell">Numbers</td><td class="header-cell">Days</td><td class="header-cell">Months</td><td class="header-cell">Mixed</td></tr>
+        <tr><th>2</th><td>Start</td><td class="num input-cell">1</td><td class="input-cell">Mon</td><td class="input-cell">Jan</td><td class="input-cell">Q1 2026</td></tr>
+        <tr><th>3</th><td>+1</td><td class="num">2</td><td>Tue</td><td>Feb</td><td>Q2 2026</td></tr>
+        <tr><th>4</th><td>+1</td><td class="num">3</td><td>Wed</td><td>Mar</td><td>Q3 2026</td></tr>
+        <tr><th>5</th><td>+1</td><td class="num">4</td><td>Thu</td><td>Apr</td><td>Q4 2026</td></tr>
+      </tbody>
+    </table></div>
+    <div class="xl-result">For non-1 step, type the first <em>two</em> values, select both, then drag — Excel infers the step. <code>10, 20</code> → <code>30, 40, 50…</code></div>
+  </div>
+
+  <h3>Flash Fill — pattern recognition by example</h3>
+  <p>Give one or two examples; Excel infers the rest. Press <kbd>Ctrl</kbd>+<kbd>E</kbd> to trigger.</p>
+
+  <div class="xl-example">
+    <div class="xl-example-label"><span>Example · split full names into first names</span><span class="xl-tab">FlashFill</span></div>
+    <div class="xl-grid-wrap"><table class="xl-grid">
+      <thead><tr><th></th><th>A</th><th>B</th></tr></thead>
+      <tbody>
+        <tr><th>1</th><td class="header-cell">Full name</td><td class="header-cell">First name</td></tr>
+        <tr><th>2</th><td>Ada Lovelace</td><td class="input-cell">Ada</td></tr>
+        <tr><th>3</th><td>Alan Turing</td><td class="formula-cell">Alan</td></tr>
+        <tr><th>4</th><td>Grace Hopper</td><td class="formula-cell">Grace</td></tr>
+        <tr><th>5</th><td>Donald Knuth</td><td class="formula-cell">Donald</td></tr>
+      </tbody>
+    </table></div>
+    <div class="xl-result">Type <code>Ada</code> in <strong>B2</strong>, click <strong>B3</strong>, press <kbd>Ctrl</kbd>+<kbd>E</kbd>. Flash Fill detects the "first word of column A" pattern. Works for emails, phone reformatting, capitalization — anything with a clear pattern.</div>
+  </div>
+</section>
+
+<section id="ch-05" class="chapter">
+  <div class="chapter-head"><span class="chapter-num">CHAPTER 05</span><h2>Number Formatting</h2><span class="tag tag-beginner">Beginner</span><span class="tag tag-intermediate">Intermediate</span></div>
+  <p><strong>Formatting changes how a cell looks, never what it stores.</strong> The cell <code>A1</code> may display "$1,250.00" but its underlying value is just <code>1250</code> — the dollar sign and decimals are cosmetic. Open <em>Format Cells</em> with <kbd>Ctrl</kbd>+<kbd>1</kbd>.</p>
+
+  <h3>Built-in categories</h3>
+  <table class="ref">
+    <thead><tr><th>Category</th><th>Example display</th><th>When to use</th></tr></thead>
+    <tbody>
+      <tr><td><strong>General</strong></td><td>1250</td><td>Default — no specific formatting.</td></tr>
+      <tr><td><strong>Number</strong></td><td>1,250.00</td><td>Plain numerics with thousands separator.</td></tr>
+      <tr><td><strong>Currency / Accounting</strong></td><td>$1,250.00</td><td>Money. Accounting aligns symbols and decimals.</td></tr>
+      <tr><td><strong>Percentage</strong></td><td>12.50%</td><td>Multiplies display by 100, adds %. Underlying value unchanged.</td></tr>
+      <tr><td><strong>Date / Time</strong></td><td>26-Apr-26</td><td>Dates stored as serial numbers (days since 1900-01-00).</td></tr>
+      <tr><td><strong>Scientific</strong></td><td>1.25E+03</td><td>Very large or very small numbers.</td></tr>
+      <tr><td><strong>Text</strong></td><td>1250 (left-aligned)</td><td>Forces literal — for ZIP codes, IDs.</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Custom number formats</h3>
+  <p>Format string has up to four sections separated by semicolons: <code>positive ; negative ; zero ; text</code></p>
+
+  <table class="ref">
+    <thead><tr><th>Symbol</th><th>Meaning</th></tr></thead>
+    <tbody>
+      <tr><td><code>0</code></td><td>Required digit (pads with zero).</td></tr>
+      <tr><td><code>#</code></td><td>Optional digit (no padding).</td></tr>
+      <tr><td><code>?</code></td><td>Space-padded digit (column alignment).</td></tr>
+      <tr><td><code>.</code></td><td>Decimal point.</td></tr>
+      <tr><td><code>,</code></td><td>Thousands separator. Trailing comma scales by 1,000.</td></tr>
+      <tr><td><code>%</code></td><td>Multiplies by 100 and shows %.</td></tr>
+      <tr><td><code>"text"</code></td><td>Literal text.</td></tr>
+      <tr><td><code>@</code></td><td>Placeholder for typed text.</td></tr>
+      <tr><td><code>[Red]</code></td><td>Color (Black, Red, Blue, Green, Magenta, Cyan, Yellow, White).</td></tr>
+      <tr><td><code>[&gt;100]</code></td><td>Conditional section.</td></tr>
+    </tbody>
+  </table>
+
+  <div class="xl-example">
+    <div class="xl-example-label"><span>Example · custom format strings in action</span><span class="xl-tab">Formats</span></div>
+    <div class="xl-grid-wrap"><table class="xl-grid">
+      <thead><tr><th></th><th>A</th><th>B</th><th>C</th></tr></thead>
+      <tbody>
+        <tr><th>1</th><td class="header-cell">Stored value</td><td class="header-cell">Format string</td><td class="header-cell">Display</td></tr>
+        <tr><th>2</th><td class="num">1250000</td><td><code>#,##0</code></td><td class="num">1,250,000</td></tr>
+        <tr><th>3</th><td class="num">1250000</td><td><code>#,##0,</code></td><td class="num">1,250</td></tr>
+        <tr><th>4</th><td class="num">1250000</td><td><code>#,##0,, "M"</code></td><td>1 M</td></tr>
+        <tr><th>5</th><td class="num">0.085</td><td><code>0.0%</code></td><td>8.5%</td></tr>
+        <tr><th>6</th><td class="num">-1250</td><td><code>[Green]+#,##0;[Red]-#,##0</code></td><td style="color:#D13438">-1,250</td></tr>
+        <tr><th>7</th><td class="num">42</td><td><code>0" units"</code></td><td>42 units</td></tr>
+        <tr><th>8</th><td class="num">0</td><td><code>#,##0;-#,##0;"–"</code></td><td>–</td></tr>
+      </tbody>
+    </table></div>
+    <div class="xl-result">Row 3: trailing comma divides display by 1,000. Row 4: two trailing commas plus "M" → millions abbreviation. Row 8: zero displayed as em-dash.</div>
+  </div>
+
+  <h3>Date format codes</h3>
+  <table class="ref">
+    <thead><tr><th>Code</th><th>Result for 2026-04-26</th></tr></thead>
+    <tbody>
+      <tr><td><code>d</code> / <code>dd</code></td><td>26 / 26</td></tr>
+      <tr><td><code>ddd</code> / <code>dddd</code></td><td>Sun / Sunday</td></tr>
+      <tr><td><code>m</code> / <code>mm</code></td><td>4 / 04</td></tr>
+      <tr><td><code>mmm</code> / <code>mmmm</code> / <code>mmmmm</code></td><td>Apr / April / A</td></tr>
+      <tr><td><code>yy</code> / <code>yyyy</code></td><td>26 / 2026</td></tr>
+      <tr><td><code>h</code> / <code>hh</code></td><td>14 (24h) — use <code>AM/PM</code> suffix for 12h</td></tr>
+      <tr><td><code>[h]</code></td><td>Elapsed hours over 24 (durations).</td></tr>
+      <tr><td><code>mm</code> after <code>h</code></td><td>Minutes (context-sensitive).</td></tr>
+    </tbody>
+  </table>
+
+  <div class="callout callout-warn">
+    <div class="callout-title">The mm trap</div>
+    In <code>dd-mmm-yyyy</code>, <code>mm</code> means month. In <code>hh:mm</code>, the same <code>mm</code> means minutes. Position matters.
+  </div>
+</section>
+
+<!-- ============= PART II — CORE MECHANICS ============= -->
+<div id="part-2" class="part-divider">
+  <span class="part-num">PART II</span>
+  <span class="part-title">Core Mechanics</span>
+</div>
+
+<section id="ch-06" class="chapter">
+  <div class="chapter-head"><span class="chapter-num">CHAPTER 06</span><h2>Formulas &amp; References</h2><span class="tag tag-beginner">Beginner</span><span class="tag tag-intermediate">Intermediate</span></div>
+  <p>A formula begins with <code>=</code> and combines values, references, operators, and functions. Excel evaluates it once and shows the result.</p>
+
+  <h3>Operators (precedence top → bottom)</h3>
+  <table class="ref">
+    <thead><tr><th>Operator</th><th>Meaning</th><th>Example</th><th>Result</th></tr></thead>
+    <tbody>
+      <tr><td><code>:</code></td><td>Range</td><td><code>A1:A5</code></td><td>5 cells</td></tr>
+      <tr><td><code>,</code></td><td>Union</td><td><code>(A1:A5,C1:C5)</code></td><td>10 cells</td></tr>
+      <tr><td><code>(space)</code></td><td>Intersection</td><td><code>A1:B5 B1:C10</code></td><td>B1:B5</td></tr>
+      <tr><td><code>-</code> (unary)</td><td>Negation</td><td><code>=-5</code></td><td>-5</td></tr>
+      <tr><td><code>%</code></td><td>Percent</td><td><code>=20%</code></td><td>0.2</td></tr>
+      <tr><td><code>^</code></td><td>Exponent</td><td><code>=2^10</code></td><td>1024</td></tr>
+      <tr><td><code>*</code> <code>/</code></td><td>Multiply / divide</td><td><code>=6*7</code></td><td>42</td></tr>
+      <tr><td><code>+</code> <code>-</code></td><td>Add / subtract</td><td><code>=10-3</code></td><td>7</td></tr>
+      <tr><td><code>&amp;</code></td><td>Concatenate</td><td><code>="Hi "&amp;"there"</code></td><td>Hi there</td></tr>
+      <tr><td><code>= &lt;&gt; &lt; &gt; &lt;= &gt;=</code></td><td>Comparison</td><td><code>=5&gt;3</code></td><td>TRUE</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Reference styles</h3>
+  <p>Toggle with <kbd>F4</kbd> in edit mode. The dollar sign locks the part it precedes.</p>
+  <table class="ref">
+    <thead><tr><th>Type</th><th>Form</th><th>Behavior when copied</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Relative</strong></td><td><code>A1</code></td><td>Both row and column shift.</td></tr>
+      <tr><td><strong>Absolute</strong></td><td><code>$A$1</code></td><td>Neither shifts.</td></tr>
+      <tr><td><strong>Mixed (locked col)</strong></td><td><code>$A1</code></td><td>Row shifts, column locked.</td></tr>
+      <tr><td><strong>Mixed (locked row)</strong></td><td><code>A$1</code></td><td>Column shifts, row locked.</td></tr>
+      <tr><td><strong>External sheet</strong></td><td><code>Sheet2!A1</code></td><td>Cross-sheet reference.</td></tr>
+      <tr><td><strong>External workbook</strong></td><td><code>[Book2.xlsx]Sheet1!A1</code></td><td>Cross-file reference.</td></tr>
+    </tbody>
+  </table>
+
+  <div class="xl-example">
+    <div class="xl-example-label"><span>Example · multiplication table built with mixed references</span><span class="xl-tab">MultTable</span></div>
+    <div class="xl-formula-bar">
+      <div class="xl-name-box">B2</div>
+      <div class="xl-fx">fx</div>
+      <div class="xl-formula-text">=$A2*B$1</div>
+    </div>
+    <div class="xl-grid-wrap"><table class="xl-grid">
+      <thead><tr><th></th><th>A</th><th>B</th><th>C</th><th>D</th><th>E</th></tr></thead>
+      <tbody>
+        <tr><th>1</th><td></td><td class="num header-cell">1</td><td class="num header-cell">2</td><td class="num header-cell">3</td><td class="num header-cell">4</td></tr>
+        <tr><th>2</th><td class="num header-cell">1</td><td class="num formula-cell">1</td><td class="num formula-cell">2</td><td class="num formula-cell">3</td><td class="num formula-cell">4</td></tr>
+        <tr><th>3</th><td class="num header-cell">2</td><td class="num formula-cell">2</td><td class="num formula-cell">4</td><td class="num formula-cell">6</td><td class="num formula-cell">8</td></tr>
+        <tr><th>4</th><td class="num header-cell">3</td><td class="num formula-cell">3</td><td class="num formula-cell">6</td><td class="num formula-cell">9</td><td class="num formula-cell">12</td></tr>
+        <tr><th>5</th><td class="num header-cell">4</td><td class="num formula-cell">4</td><td class="num formula-cell">8</td><td class="num formula-cell">12</td><td class="num formula-cell">16</td></tr>
+      </tbody>
+    </table></div>
+    <div class="xl-result">Type <code>=$A2*B$1</code> once in <strong>B2</strong>, then drag/fill across and down. <code>$A2</code> locks column A; <code>B$1</code> locks row 1. Both are needed — pure relative refs would walk off the table.</div>
+  </div>
+
+  <h3>Named ranges</h3>
+  <p>Replace <code>$B$2:$B$1000</code> with a meaningful name like <code>Sales</code>. Define via <em>Formulas → Name Manager</em> or <kbd>Ctrl</kbd>+<kbd>F3</kbd>. Names are absolute by default and can refer to constants, ranges, or whole formulas.</p>
+
+  <div class="xl-example">
+    <div class="xl-example-label"><span>Example · readable formulas with names</span><span class="xl-tab">Names</span></div>
+    <div class="xl-grid-wrap"><table class="xl-grid">
+      <thead><tr><th></th><th>A</th><th>B</th><th>C</th></tr></thead>
+      <tbody>
+        <tr><th>1</th><td class="header-cell">Name</td><td class="header-cell">Refers to</td><td class="header-cell">Used in formula</td></tr>
+        <tr><th>2</th><td>TaxRate</td><td class="num">0.085</td><td><code>=Price*TaxRate</code></td></tr>
+        <tr><th>3</th><td>Sales</td><td>Sheet2!$B$2:$B$1000</td><td><code>=SUM(Sales)</code></td></tr>
+        <tr><th>4</th><td>FY</td><td>=YEAR(TODAY())</td><td><code>="Report "&amp;FY</code></td></tr>
+      </tbody>
+    </table></div>
+    <div class="xl-result"><code>=Price*TaxRate</code> reads better than <code>=B5*$F$2</code> and survives moving cells around.</div>
+  </div>
+
+  <h3>Formula auditing</h3>
+  <table class="ref">
+    <thead><tr><th>Tool</th><th>How</th></tr></thead>
+    <tbody>
+      <tr><td>Trace Precedents</td><td><em>Formulas → Trace Precedents</em> — arrows to cells this formula reads.</td></tr>
+      <tr><td>Trace Dependents</td><td>Arrows to cells that read this one.</td></tr>
+      <tr><td>Evaluate Formula</td><td><em>Formulas → Evaluate Formula</em> — step through evaluation.</td></tr>
+      <tr><td>Watch Window</td><td>Pin specific cells to monitor while you work elsewhere.</td></tr>
+      <tr><td>Show Formulas</td><td><kbd>Ctrl</kbd>+<kbd>`</kbd> — toggle full-sheet formula view.</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section id="ch-07" class="chapter">
+  <div class="chapter-head"><span class="chapter-num">CHAPTER 07</span><h2>Math &amp; Statistical Functions</h2><span class="tag tag-beginner">Beginner</span><span class="tag tag-intermediate">Intermediate</span></div>
+
+  <h3>Aggregation — the daily workhorses</h3>
+  <table class="ref">
+    <thead><tr><th>Function</th><th>What it does</th></tr></thead>
+    <tbody>
+      <tr><td><code>SUM(range)</code></td><td>Total.</td></tr>
+      <tr><td><code>AVERAGE(range)</code></td><td>Arithmetic mean. Ignores text/blank, includes zero.</td></tr>
+      <tr><td><code>COUNT(range)</code></td><td>Count of <em>numbers</em>.</td></tr>
+      <tr><td><code>COUNTA(range)</code></td><td>Count of non-empty cells.</td></tr>
+      <tr><td><code>COUNTBLANK(range)</code></td><td>Count of empty cells.</td></tr>
+      <tr><td><code>MAX / MIN(range)</code></td><td>Largest / smallest.</td></tr>
+      <tr><td><code>PRODUCT(range)</code></td><td>Multiplies.</td></tr>
+      <tr><td><code>MEDIAN(range)</code></td><td>Middle value.</td></tr>
+      <tr><td><code>MODE.SNGL(range)</code></td><td>Most frequent value.</td></tr>
+      <tr><td><code>SUBTOTAL(fn,range)</code></td><td>Aggregate that respects filters.</td></tr>
+      <tr><td><code>AGGREGATE(fn,opt,range)</code></td><td>Like SUBTOTAL but ignores errors too.</td></tr>
+    </tbody>
+  </table>
+
+  <div class="xl-example">
+    <div class="xl-example-label"><span>Example · aggregating monthly sales</span><span class="xl-tab">Aggregates</span></div>
+    <div class="xl-grid-wrap"><table class="xl-grid">
+      <thead><tr><th></th><th>A</th><th>B</th><th>C</th><th>D</th></tr></thead>
+      <tbody>
+        <tr><th>1</th><td class="header-cell">Month</td><td class="header-cell">Sales</td><td class="header-cell">Formula</td><td class="header-cell">Result</td></tr>
+        <tr><th>2</th><td>Jan</td><td class="num">1240</td><td><code>=SUM(B2:B7)</code></td><td class="num formula-cell">11260</td></tr>
+        <tr><th>3</th><td>Feb</td><td class="num">1580</td><td><code>=AVERAGE(B2:B7)</code></td><td class="num formula-cell">1876.67</td></tr>
+        <tr><th>4</th><td>Mar</td><td class="num">2110</td><td><code>=MAX(B2:B7)</code></td><td class="num formula-cell">2480</td></tr>
+        <tr><th>5</th><td>Apr</td><td class="num">1950</td><td><code>=MIN(B2:B7)</code></td><td class="num formula-cell">1240</td></tr>
+        <tr><th>6</th><td>May</td><td class="num">2480</td><td><code>=COUNT(B2:B7)</code></td><td class="num formula-cell">6</td></tr>
+        <tr><th>7</th><td>Jun</td><td class="num">1900</td><td><code>=MEDIAN(B2:B7)</code></td><td class="num formula-cell">1925</td></tr>
+      </tbody>
+    </table></div>
+  </div>
+
+  <h3>Conditional aggregation</h3>
+  <p>Same logic, but only counted/summed if criteria match. The plural forms (<code>SUMIFS</code>, <code>COUNTIFS</code>, <code>AVERAGEIFS</code>) take multiple criteria pairs and are nearly always preferred over the singular forms.</p>
+
+  <table class="ref">
+    <thead><tr><th>Function</th><th>Signature</th></tr></thead>
+    <tbody>
+      <tr><td><code>SUMIF</code></td><td><code>(criteria_range, criteria, [sum_range])</code></td></tr>
+      <tr><td><code>SUMIFS</code></td><td><code>(sum_range, crit_rng1, crit1, crit_rng2, crit2, …)</code></td></tr>
+      <tr><td><code>COUNTIF / COUNTIFS</code></td><td>Same shape; counts instead of sums.</td></tr>
+      <tr><td><code>AVERAGEIF / AVERAGEIFS</code></td><td>Same shape; averages instead of sums.</td></tr>
+      <tr><td><code>MAXIFS / MINIFS</code></td><td>Conditional max / min.</td></tr>
+    </tbody>
+  </table>
+
+  <div class="xl-example">
+    <div class="xl-example-label"><span>Example · SUMIFS with two criteria</span><span class="xl-tab">SumIfs</span></div>
+    <div class="xl-formula-bar">
+      <div class="xl-name-box">F2</div>
+      <div class="xl-fx">fx</div>
+      <div class="xl-formula-text">=SUMIFS(C2:C7, A2:A7, "North", B2:B7, "Widget")</div>
+    </div>
+    <div class="xl-grid-wrap"><table class="xl-grid">
+      <thead><tr><th></th><th>A</th><th>B</th><th>C</th><th>D</th><th>E</th><th>F</th></tr></thead>
+      <tbody>
+        <tr><th>1</th><td class="header-cell">Region</td><td class="header-cell">Product</td><td class="header-cell">Amount</td><td></td><td class="header-cell">Total North-Widget</td><td></td></tr>
+        <tr><th>2</th><td>North</td><td>Widget</td><td class="num">100</td><td></td><td></td><td class="num formula-cell">300</td></tr>
+        <tr><th>3</th><td>South</td><td>Widget</td><td class="num">150</td><td></td><td></td><td></td></tr>
+        <tr><th>4</th><td>North</td><td>Gadget</td><td class="num">200</td><td></td><td></td><td></td></tr>
+        <tr><th>5</th><td>North</td><td>Widget</td><td class="num">200</td><td></td><td></td><td></td></tr>
+        <tr><th>6</th><td>South</td><td>Gadget</td><td class="num">120</td><td></td><td></td><td></td></tr>
+        <tr><th>7</th><td>North</td><td>Widget</td><td class="num">0</td><td></td><td></td><td></td></tr>
+      </tbody>
+    </table></div>
+    <div class="xl-result">Sums column C only where column A is "North" <strong>and</strong> column B is "Widget". Rows 2, 5, 7 match → 100 + 200 + 0 = <strong>300</strong>.</div>
+  </div>
+
+  <h3>Criteria operators</h3>
+  <p>Inside <code>SUMIF/COUNTIF</code> criteria, you can use comparison operators and wildcards <em>as text</em>:</p>
+  <p><span class="xl-mini"><code>"&gt;100"</code><span class="arr">→</span>greater than 100</span> <span class="xl-mini"><code>"&lt;&gt;0"</code><span class="arr">→</span>not zero</span> <span class="xl-mini"><code>"&gt;="&amp;A1</code><span class="arr">→</span>concat with cell</span> <span class="xl-mini"><code>"North*"</code><span class="arr">→</span>starts with North</span> <span class="xl-mini"><code>"?at"</code><span class="arr">→</span>cat, bat, hat</span></p>
+
+  <h3>Rounding family</h3>
+  <table class="ref">
+    <thead><tr><th>Function</th><th>Behavior</th><th>Example</th><th>Result</th></tr></thead>
+    <tbody>
+      <tr><td><code>ROUND(x,n)</code></td><td>Round half-up</td><td><code>=ROUND(2.345,2)</code></td><td>2.35</td></tr>
+      <tr><td><code>ROUNDUP(x,n)</code></td><td>Always away from zero</td><td><code>=ROUNDUP(2.341,2)</code></td><td>2.35</td></tr>
+      <tr><td><code>ROUNDDOWN(x,n)</code></td><td>Always toward zero</td><td><code>=ROUNDDOWN(2.349,2)</code></td><td>2.34</td></tr>
+      <tr><td><code>MROUND(x,m)</code></td><td>To nearest multiple of m</td><td><code>=MROUND(47,5)</code></td><td>45</td></tr>
+      <tr><td><code>CEILING.MATH(x,m)</code></td><td>Up to multiple</td><td><code>=CEILING.MATH(47,5)</code></td><td>50</td></tr>
+      <tr><td><code>FLOOR.MATH(x,m)</code></td><td>Down to multiple</td><td><code>=FLOOR.MATH(47,5)</code></td><td>45</td></tr>
+      <tr><td><code>INT(x)</code></td><td>Toward -∞</td><td><code>=INT(-2.5)</code></td><td>-3</td></tr>
+      <tr><td><code>TRUNC(x,n)</code></td><td>Toward zero</td><td><code>=TRUNC(-2.5)</code></td><td>-2</td></tr>
+      <tr><td><code>ABS(x)</code></td><td>Absolute value</td><td><code>=ABS(-5)</code></td><td>5</td></tr>
+      <tr><td><code>SIGN(x)</code></td><td>-1, 0, or 1</td><td><code>=SIGN(-7)</code></td><td>-1</td></tr>
+      <tr><td><code>MOD(x,d)</code></td><td>Remainder</td><td><code>=MOD(10,3)</code></td><td>1</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Statistical</h3>
+  <table class="ref">
+    <thead><tr><th>Function</th><th>Returns</th></tr></thead>
+    <tbody>
+      <tr><td><code>STDEV.S / STDEV.P</code></td><td>Sample / population standard deviation</td></tr>
+      <tr><td><code>VAR.S / VAR.P</code></td><td>Sample / population variance</td></tr>
+      <tr><td><code>PERCENTILE.INC(arr,k)</code></td><td>k-th percentile (k = 0…1)</td></tr>
+      <tr><td><code>QUARTILE.INC(arr,q)</code></td><td>Quartile (q = 0…4)</td></tr>
+      <tr><td><code>RANK.EQ(x,arr,[order])</code></td><td>Rank with ties sharing the lower rank</td></tr>
+      <tr><td><code>LARGE / SMALL(arr,k)</code></td><td>k-th largest / smallest</td></tr>
+      <tr><td><code>CORREL / SLOPE / INTERCEPT</code></td><td>Linear regression statistics</td></tr>
+      <tr><td><code>FORECAST.LINEAR / FORECAST.ETS</code></td><td>Predict y given x; ETS = exponential smoothing</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Random</h3>
+  <p><span class="xl-mini"><code>=RAND()</code><span class="arr">→</span><span class="res">0…1</span></span> <span class="xl-mini"><code>=RANDBETWEEN(1,100)</code><span class="arr">→</span><span class="res">int 1–100</span></span> <span class="xl-mini"><code>=RANDARRAY(5,3)</code><span class="arr">→</span><span class="res">5×3 array</span></span></p>
+  <p>All recalculate on every change — wrap in <em>Paste Values</em> if you need them frozen.</p>
+</section>
+
+<section id="ch-08" class="chapter">
+  <div class="chapter-head"><span class="chapter-num">CHAPTER 08</span><h2>Logical Functions</h2><span class="tag tag-beginner">Beginner</span><span class="tag tag-intermediate">Intermediate</span></div>
+
+  <h3>IF and the boolean operators</h3>
+  <p><code>IF(test, value_if_true, value_if_false)</code>. The <em>test</em> can use any operator. Combine tests with <code>AND</code>, <code>OR</code>, <code>NOT</code>, <code>XOR</code>.</p>
+
+  <div class="xl-example">
+    <div class="xl-example-label"><span>Example · grading with nested IF</span><span class="xl-tab">Grading</span></div>
+    <div class="xl-formula-bar">
+      <div class="xl-name-box">B2</div>
+      <div class="xl-fx">fx</div>
+      <div class="xl-formula-text">=IF(A2&gt;=90,"A",IF(A2&gt;=80,"B",IF(A2&gt;=70,"C","F")))</div>
+    </div>
+    <div class="xl-grid-wrap"><table class="xl-grid">
+      <thead><tr><th></th><th>A</th><th>B</th></tr></thead>
+      <tbody>
+        <tr><th>1</th><td class="header-cell">Score</td><td class="header-cell">Grade</td></tr>
+        <tr><th>2</th><td class="num">95</td><td class="formula-cell center">A</td></tr>
+        <tr><th>3</th><td class="num">82</td><td class="formula-cell center">B</td></tr>
+        <tr><th>4</th><td class="num">71</td><td class="formula-cell center">C</td></tr>
+        <tr><th>5</th><td class="num">58</td><td class="formula-cell center">F</td></tr>
+      </tbody>
+    </table></div>
+  </div>
+
+  <h3>IFS — cleaner than nested IF</h3>
+  <p>Pairs of <em>condition, result</em>, evaluated left-to-right. Returns the first match.</p>
+  <div class="xl-example">
+    <div class="xl-example-label"><span>Example · same logic with IFS</span><span class="xl-tab">Grading</span></div>
+    <div class="xl-formula-bar">
+      <div class="xl-name-box">B2</div>
+      <div class="xl-fx">fx</div>
+      <div class="xl-formula-text">=IFS(A2&gt;=90,"A", A2&gt;=80,"B", A2&gt;=70,"C", TRUE,"F")</div>
+    </div>
+    <div class="xl-result">The trailing <code>TRUE,"F"</code> is the catch-all (the "else"). Without it, an unmatched score returns <code>#N/A</code>.</div>
+  </div>
+
+  <h3>SWITCH — dispatch on equality</h3>
+  <div class="xl-example">
+    <div class="xl-example-label"><span>Example · region code → name</span><span class="xl-tab">Switch</span></div>
+    <div class="xl-formula-bar">
+      <div class="xl-name-box">B2</div>
+      <div class="xl-fx">fx</div>
+      <div class="xl-formula-text">=SWITCH(A2, "N","North", "S","South", "E","East", "W","West", "Unknown")</div>
+    </div>
+    <div class="xl-grid-wrap"><table class="xl-grid">
+      <thead><tr><th></th><th>A</th><th>B</th></tr></thead>
+      <tbody>
+        <tr><th>1</th><td class="header-cell">Code</td><td class="header-cell">Region</td></tr>
+        <tr><th>2</th><td class="center">N</td><td class="formula-cell">North</td></tr>
+        <tr><th>3</th><td class="center">E</td><td class="formula-cell">East</td></tr>
+        <tr><th>4</th><td class="center">Z</td><td class="formula-cell">Unknown</td></tr>
+      </tbody>
+    </table></div>
+  </div>
+
+  <h3>Error handling</h3>
+  <table class="ref">
+    <thead><tr><th>Function</th><th>Returns alternative if…</th></tr></thead>
+    <tbody>
+      <tr><td><code>IFERROR(value, alt)</code></td><td>any error</td></tr>
+      <tr><td><code>IFNA(value, alt)</code></td><td>only #N/A (preserves real errors — preferred for lookups)</td></tr>
+      <tr><td><code>ISERROR(value)</code></td><td>TRUE for any error</td></tr>
+      <tr><td><code>ISNA(value)</code></td><td>TRUE for #N/A only</td></tr>
+      <tr><td><code>ISBLANK / ISNUMBER / ISTEXT / ISLOGICAL</code></td><td>Type tests</td></tr>
+    </tbody>
+  </table>
+
+  <div class="xl-example">
+    <div class="xl-example-label"><span>Example · IFERROR vs IFNA</span><span class="xl-tab">Errors</span></div>
+    <div class="xl-grid-wrap"><table class="xl-grid">
+      <thead><tr><th></th><th>A</th><th>B</th><th>C</th></tr></thead>
+      <tbody>
+        <tr><th>1</th><td class="header-cell">Formula</td><td class="header-cell">Returns</td><td class="header-cell">Why</td></tr>
+        <tr><th>2</th><td><code>=IFERROR(1/0,"–")</code></td><td class="formula-cell center">–</td><td>Hides #DIV/0!</td></tr>
+        <tr><th>3</th><td><code>=IFNA(1/0,"–")</code></td><td class="error-cell">#DIV/0!</td><td>Only #N/A is replaced</td></tr>
+        <tr><th>4</th><td><code>=IFNA(VLOOKUP(...),"missing")</code></td><td class="formula-cell">missing</td><td>Real bugs still surface</td></tr>
+      </tbody>
+    </table></div>
+    <div class="xl-result"><strong>Best practice:</strong> use IFNA on lookups so that genuine bugs (#REF!, #VALUE!) still surface instead of being masked.</div>
+  </div>
+</section>
+
+<section id="ch-09" class="chapter">
+  <div class="chapter-head"><span class="chapter-num">CHAPTER 09</span><h2>Text Functions</h2><span class="tag tag-intermediate">Intermediate</span></div>
+
+  <h3>Combining and splitting</h3>
+  <table class="ref">
+    <thead><tr><th>Function</th><th>Example</th><th>Result</th></tr></thead>
+    <tbody>
+      <tr><td><code>CONCAT(a,b,c)</code></td><td><code>=CONCAT("Hi"," ","there")</code></td><td>Hi there</td></tr>
+      <tr><td><code>TEXTJOIN(sep,ignore,…)</code></td><td><code>=TEXTJOIN(", ",TRUE,A1:A4)</code></td><td>red, blue, green, yellow</td></tr>
+      <tr><td><code>&amp;</code> (operator)</td><td><code>=A1&amp;" — "&amp;B1</code></td><td>Joiner shortcut</td></tr>
+      <tr><td><code>TEXTSPLIT(text,col,row)</code></td><td><code>=TEXTSPLIT("a,b,c",",")</code></td><td>{"a","b","c"} as 3 columns</td></tr>
+      <tr><td><code>TEXTBEFORE / TEXTAFTER</code></td><td><code>=TEXTBEFORE("ada@x.com","@")</code></td><td>ada</td></tr>
+    </tbody>
+  </table>
+
+  <div class="xl-example">
+    <div class="xl-example-label"><span>Example · TEXTJOIN to build a comma list</span><span class="xl-tab">Join</span></div>
+    <div class="xl-formula-bar">
+      <div class="xl-name-box">B6</div>
+      <div class="xl-fx">fx</div>
+      <div class="xl-formula-text">=TEXTJOIN(", ", TRUE, A2:A5)</div>
+    </div>
+    <div class="xl-grid-wrap"><table class="xl-grid">
+      <thead><tr><th></th><th>A</th><th>B</th></tr></thead>
+      <tbody>
+        <tr><th>1</th><td class="header-cell">Color</td><td></td></tr>
+        <tr><th>2</th><td>Red</td><td></td></tr>
+        <tr><th>3</th><td>Blue</td><td></td></tr>
+        <tr><th>4</th><td></td><td></td></tr>
+        <tr><th>5</th><td>Green</td><td></td></tr>
+        <tr><th>6</th><td class="header-cell">List:</td><td class="formula-cell">Red, Blue, Green</td></tr>
+      </tbody>
+    </table></div>
+    <div class="xl-result">Second arg <code>TRUE</code> = ignore empty cells. Notice row 4 (blank) is skipped without a stray separator.</div>
+  </div>
+
+  <h3>Substrings</h3>
+  <table class="ref">
+    <thead><tr><th>Function</th><th>Example</th><th>Result</th></tr></thead>
+    <tbody>
+      <tr><td><code>LEFT(text,n)</code></td><td><code>=LEFT("Spreadsheet",6)</code></td><td>Spread</td></tr>
+      <tr><td><code>RIGHT(text,n)</code></td><td><code>=RIGHT("Spreadsheet",5)</code></td><td>sheet</td></tr>
+      <tr><td><code>MID(text,start,n)</code></td><td><code>=MID("Spreadsheet",2,4)</code></td><td>prea</td></tr>
+      <tr><td><code>LEN(text)</code></td><td><code>=LEN("hello")</code></td><td>5</td></tr>
+      <tr><td><code>FIND(find,within,[start])</code></td><td><code>=FIND("@","ada@x.com")</code></td><td>4</td></tr>
+      <tr><td><code>SEARCH(find,within,[start])</code></td><td>Same as FIND but case-insensitive and supports wildcards</td><td></td></tr>
+      <tr><td><code>SUBSTITUTE(text,old,new,[n])</code></td><td><code>=SUBSTITUTE("a-b-c","-","/")</code></td><td>a/b/c</td></tr>
+      <tr><td><code>REPLACE(text,start,n,new)</code></td><td><code>=REPLACE("abcdef",2,3,"XYZ")</code></td><td>aXYZef</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Case &amp; cleanup</h3>
+  <p><span class="xl-mini"><code>=UPPER("Excel")</code><span class="arr">→</span><span class="res">EXCEL</span></span> <span class="xl-mini"><code>=LOWER("Excel")</code><span class="arr">→</span><span class="res">excel</span></span> <span class="xl-mini"><code>=PROPER("the quick fox")</code><span class="arr">→</span><span class="res">The Quick Fox</span></span> <span class="xl-mini"><code>=TRIM("  hi   you  ")</code><span class="arr">→</span><span class="res">hi you</span></span> <span class="xl-mini"><code>=CLEAN(text)</code><span class="arr">→</span><span class="res">strip non-print</span></span></p>
+
+  <h3>TEXT &amp; VALUE — convert across types</h3>
+  <div class="xl-example">
+    <div class="xl-example-label"><span>Example · TEXT and VALUE round-trip</span><span class="xl-tab">Convert</span></div>
+    <div class="xl-grid-wrap"><table class="xl-grid">
+      <thead><tr><th></th><th>A</th><th>B</th><th>C</th></tr></thead>
+      <tbody>
+        <tr><th>1</th><td class="header-cell">Stored</td><td class="header-cell">Formula</td><td class="header-cell">Result (text)</td></tr>
+        <tr><th>2</th><td class="num">0.085</td><td><code>=TEXT(A2,"0.0%")</code></td><td class="formula-cell">8.5%</td></tr>
+        <tr><th>3</th><td class="num">1234.5</td><td><code>=TEXT(A3,"$#,##0.00")</code></td><td class="formula-cell">$1,234.50</td></tr>
+        <tr><th>4</th><td>2026-04-26</td><td><code>=TEXT(A4,"dddd, mmm d")</code></td><td class="formula-cell">Sunday, Apr 26</td></tr>
+        <tr><th>5</th><td>$1,234.50</td><td><code>=VALUE(A5)</code></td><td class="num formula-cell">1234.5</td></tr>
+      </tbody>
+    </table></div>
+  </div>
+
+  <h3>REGEX (Microsoft 365)</h3>
+  <p>Three regex functions added in 2024 — full PCRE2 syntax.</p>
+  <table class="ref">
+    <thead><tr><th>Function</th><th>Purpose</th></tr></thead>
+    <tbody>
+      <tr><td><code>REGEXTEST(text, pattern)</code></td><td>Returns TRUE/FALSE.</td></tr>
+      <tr><td><code>REGEXEXTRACT(text, pattern, [mode])</code></td><td>First match, all matches, or capture groups.</td></tr>
+      <tr><td><code>REGEXREPLACE(text, pattern, replacement)</code></td><td>Replace by pattern.</td></tr>
+    </tbody>
+  </table>
+
+  <div class="xl-example">
+    <div class="xl-example-label"><span>Example · extract digits and validate</span><span class="xl-tab">Regex</span></div>
+    <div class="xl-grid-wrap"><table class="xl-grid">
+      <thead><tr><th></th><th>A</th><th>B</th><th>C</th></tr></thead>
+      <tbody>
+        <tr><th>1</th><td class="header-cell">Input</td><td class="header-cell">Formula</td><td class="header-cell">Result</td></tr>
+        <tr><th>2</th><td>Order #4521-ABC</td><td><code>=REGEXEXTRACT(A2,"\d+")</code></td><td class="formula-cell">4521</td></tr>
+        <tr><th>3</th><td>ada@example.com</td><td><code>=REGEXTEST(A3,"^[\w.]+@[\w.]+$")</code></td><td class="formula-cell center">TRUE</td></tr>
+        <tr><th>4</th><td>+1 (415) 555-0199</td><td><code>=REGEXREPLACE(A4,"\D","")</code></td><td class="formula-cell">14155550199</td></tr>
+      </tbody>
+    </table></div>
+  </div>
+</section>
+
+<section id="ch-10" class="chapter">
+  <div class="chapter-head"><span class="chapter-num">CHAPTER 10</span><h2>Date &amp; Time Functions</h2><span class="tag tag-beginner">Beginner</span><span class="tag tag-intermediate">Intermediate</span></div>
+
+  <p>Excel stores dates as <strong>serial numbers</strong> — days since 1900-01-00. <code>1</code> = 1900-01-01, <code>45769</code> = 2025-04-26. Time is the fractional part: <code>0.5</code> = noon. This is why date arithmetic just works: <span class="xl-mini"><code>=B1-A1</code><span class="arr">→</span><span class="res">days between</span></span></p>
+
+  <h3>Building dates and times</h3>
+  <table class="ref">
+    <thead><tr><th>Function</th><th>Example</th><th>Result</th></tr></thead>
+    <tbody>
+      <tr><td><code>TODAY()</code></td><td><code>=TODAY()</code></td><td>Today (recalcs daily)</td></tr>
+      <tr><td><code>NOW()</code></td><td><code>=NOW()</code></td><td>Today + current time</td></tr>
+      <tr><td><code>DATE(y,m,d)</code></td><td><code>=DATE(2026,4,26)</code></td><td>2026-04-26</td></tr>
+      <tr><td><code>TIME(h,m,s)</code></td><td><code>=TIME(14,30,0)</code></td><td>14:30:00</td></tr>
+      <tr><td><code>DATEVALUE("text")</code></td><td><code>=DATEVALUE("26-Apr-2026")</code></td><td>46138</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Extracting parts</h3>
+  <p><span class="xl-mini"><code>=YEAR(A1)</code></span> <span class="xl-mini"><code>=MONTH(A1)</code></span> <span class="xl-mini"><code>=DAY(A1)</code></span> <span class="xl-mini"><code>=HOUR(A1)</code></span> <span class="xl-mini"><code>=MINUTE(A1)</code></span> <span class="xl-mini"><code>=SECOND(A1)</code></span> <span class="xl-mini"><code>=WEEKDAY(A1,2)</code><span class="arr">→</span><span class="res">1=Mon</span></span> <span class="xl-mini"><code>=WEEKNUM(A1)</code></span> <span class="xl-mini"><code>=ISOWEEKNUM(A1)</code></span></p>
+
+  <h3>Adding intervals</h3>
+  <table class="ref">
+    <thead><tr><th>Function</th><th>What it does</th></tr></thead>
+    <tbody>
+      <tr><td><code>EDATE(date, months)</code></td><td>Shift by months. Negative values go back.</td></tr>
+      <tr><td><code>EOMONTH(date, months)</code></td><td>Last day of the month <em>n</em> months from start.</td></tr>
+      <tr><td><code>WORKDAY(start, days, [holidays])</code></td><td>Skips weekends and listed holidays.</td></tr>
+      <tr><td><code>WORKDAY.INTL(start, days, weekend, hol)</code></td><td>Custom weekend pattern.</td></tr>
+      <tr><td><code>NETWORKDAYS(start, end, [hol])</code></td><td>Business days between two dates.</td></tr>
+      <tr><td><code>DATEDIF(start, end, unit)</code></td><td>Difference in "Y", "M", "D", "YM", "MD", "YD" units (legacy but works).</td></tr>
+    </tbody>
+  </table>
+
+  <div class="xl-example">
+    <div class="xl-example-label"><span>Example · age, business days, and project end date</span><span class="xl-tab">DateMath</span></div>
+    <div class="xl-grid-wrap"><table class="xl-grid">
+      <thead><tr><th></th><th>A</th><th>B</th><th>C</th></tr></thead>
+      <tbody>
+        <tr><th>1</th><td class="header-cell">Description</td><td class="header-cell">Formula</td><td class="header-cell">Result</td></tr>
+        <tr><th>2</th><td>Age in years (born 1990-03-15)</td><td><code>=DATEDIF("1990-03-15", TODAY(), "Y")</code></td><td class="num formula-cell">36</td></tr>
+        <tr><th>3</th><td>Business days from Apr 1 to Apr 30, 2026</td><td><code>=NETWORKDAYS("2026-04-01","2026-04-30")</code></td><td class="num formula-cell">22</td></tr>
+        <tr><th>4</th><td>Date 90 working days from today</td><td><code>=WORKDAY(TODAY(),90)</code></td><td class="formula-cell">2026-08-31</td></tr>
+        <tr><th>5</th><td>Last day of next month</td><td><code>=EOMONTH(TODAY(),1)</code></td><td class="formula-cell">2026-05-31</td></tr>
+      </tbody>
+    </table></div>
+  </div>
+
+  <h3>Time arithmetic gotcha</h3>
+  <div class="callout callout-warn">
+    <div class="callout-title">Times over 24 hours</div>
+    <code>=B1-A1</code> where the difference is over 24 hours will <em>look</em> wrong because the default time format wraps. Format the result cell as <code>[h]:mm</code> — the brackets tell Excel to show elapsed hours instead of clock hours.
+  </div>
+</section>
+
+<!-- ============= PART III — LOOKUP & DATA ============= -->
+<div id="part-3" class="part-divider">
+  <span class="part-num">PART III</span>
+  <span class="part-title">Lookup &amp; Data</span>
+</div>
+
+<section id="ch-11" class="chapter">
+  <div class="chapter-head"><span class="chapter-num">CHAPTER 11</span><h2>Lookup Functions</h2><span class="tag tag-intermediate">Intermediate</span><span class="tag tag-advanced">Advanced</span></div>
+  <p>Lookups are how Excel <em>joins</em> data — pull a related value from one table into another by matching a key. Master <code>XLOOKUP</code> first; learn <code>INDEX</code>/<code>MATCH</code> for legacy files; understand <code>VLOOKUP</code> only because you'll see it.</p>
+
+  <h3>XLOOKUP — the modern default</h3>
+  <p><code>XLOOKUP(lookup, lookup_array, return_array, [if_not_found], [match_mode], [search_mode])</code></p>
+  <ul>
+    <li>Looks in any direction — left, right, up, down. No "column index" arithmetic.</li>
+    <li>Built-in fallback. No more wrapping in IFERROR.</li>
+    <li>Exact match by default. (VLOOKUP defaults to approximate, the cause of countless bugs.)</li>
+    <li>Returns an array — perfect for spilling into multiple columns.</li>
+  </ul>
+
+  <div class="xl-example">
+    <div class="xl-example-label"><span>Example · find a price by product code</span><span class="xl-tab">XLOOKUP</span></div>
+    <div class="xl-formula-bar">
+      <div class="xl-name-box">E2</div>
+      <div class="xl-fx">fx</div>
+      <div class="xl-formula-text">=XLOOKUP(D2, A2:A5, C2:C5, "not found")</div>
+    </div>
+    <div class="xl-grid-wrap"><table class="xl-grid">
+      <thead><tr><th></th><th>A</th><th>B</th><th>C</th><th>D</th><th>E</th></tr></thead>
+      <tbody>
+        <tr><th>1</th><td class="header-cell">SKU</td><td class="header-cell">Product</td><td class="header-cell">Price</td><td class="header-cell">Lookup</td><td class="header-cell">Price</td></tr>
+        <tr><th>2</th><td>A-100</td><td>Widget</td><td class="num">9.99</td><td>B-200</td><td class="num formula-cell">14.50</td></tr>
+        <tr><th>3</th><td>A-101</td><td>Bolt</td><td class="num">2.25</td><td>Z-999</td><td class="formula-cell">not found</td></tr>
+        <tr><th>4</th><td>B-200</td><td>Gadget</td><td class="num">14.50</td><td></td><td></td></tr>
+        <tr><th>5</th><td>C-300</td><td>Sprocket</td><td class="num">7.75</td><td></td><td></td></tr>
+      </tbody>
+    </table></div>
+    <div class="xl-result">Looks up <code>D2</code> ("B-200") in column A and returns the matching value from column C. The 4th argument is the fallback.</div>
+  </div>
+
+  <div class="xl-example">
+    <div class="xl-example-label"><span>Example · return multiple columns at once (spill)</span><span class="xl-tab">XL-Spill</span></div>
+    <div class="xl-formula-bar">
+      <div class="xl-name-box">E2</div>
+      <div class="xl-fx">fx</div>
+      <div class="xl-formula-text">=XLOOKUP(D2, A2:A5, B2:C5)</div>
+    </div>
+    <div class="xl-grid-wrap"><table class="xl-grid">
+      <thead><tr><th></th><th>A</th><th>B</th><th>C</th><th>D</th><th>E</th><th>F</th></tr></thead>
+      <tbody>
+        <tr><th>1</th><td class="header-cell">SKU</td><td class="header-cell">Product</td><td class="header-cell">Price</td><td class="header-cell">Lookup</td><td class="header-cell">Product</td><td class="header-cell">Price</td></tr>
+        <tr><th>2</th><td>A-100</td><td>Widget</td><td class="num">9.99</td><td>C-300</td><td class="formula-cell">Sprocket</td><td class="num spill-cell">7.75</td></tr>
+        <tr><th>3</th><td>A-101</td><td>Bolt</td><td class="num">2.25</td><td></td><td></td><td></td></tr>
+        <tr><th>4</th><td>B-200</td><td>Gadget</td><td class="num">14.50</td><td></td><td></td><td></td></tr>
+        <tr><th>5</th><td>C-300</td><td>Sprocket</td><td class="num">7.75</td><td></td><td></td><td></td></tr>
+      </tbody>
+    </table></div>
+    <div class="xl-result">Return-array spans two columns (B:C) so Excel <strong>spills</strong> the result across E2:F2. Only one formula, written in <strong>E2</strong>.</div>
+  </div>
+
+  <h3>Match modes &amp; search modes</h3>
+  <table class="ref">
+    <thead><tr><th>match_mode</th><th>Behavior</th></tr></thead>
+    <tbody>
+      <tr><td><code>0</code> (default)</td><td>Exact match.</td></tr>
+      <tr><td><code>-1</code></td><td>Exact or next smaller — for tier brackets.</td></tr>
+      <tr><td><code>1</code></td><td>Exact or next larger.</td></tr>
+      <tr><td><code>2</code></td><td>Wildcard match (<code>*</code> any, <code>?</code> single).</td></tr>
+    </tbody>
+  </table>
+  <table class="ref">
+    <thead><tr><th>search_mode</th><th>Behavior</th></tr></thead>
+    <tbody>
+      <tr><td><code>1</code> (default)</td><td>Top-down.</td></tr>
+      <tr><td><code>-1</code></td><td>Bottom-up — find <em>last</em> match.</td></tr>
+      <tr><td><code>2</code> / <code>-2</code></td><td>Binary search ascending / descending (data must be sorted).</td></tr>
+    </tbody>
+  </table>
+
+  <h3>INDEX / MATCH — the classic combo</h3>
+  <p>Before XLOOKUP (Excel 2019 and older), the standard was <code>INDEX(return_range, MATCH(lookup, lookup_range, 0))</code>. Still works everywhere; still useful when you need two-dimensional lookup.</p>
+
+  <div class="xl-example">
+    <div class="xl-example-label"><span>Example · two-dimensional INDEX/MATCH</span><span class="xl-tab">2DLookup</span></div>
+    <div class="xl-formula-bar">
+      <div class="xl-name-box">G2</div>
+      <div class="xl-fx">fx</div>
+      <div class="xl-formula-text">=INDEX(B2:E5, MATCH(F2,A2:A5,0), MATCH(G1,B1:E1,0))</div>
+    </div>
+    <div class="xl-grid-wrap"><table class="xl-grid">
+      <thead><tr><th></th><th>A</th><th>B</th><th>C</th><th>D</th><th>E</th><th>F</th><th>G</th></tr></thead>
+      <tbody>
+        <tr><th>1</th><td class="header-cell">Region</td><td class="header-cell">Q1</td><td class="header-cell">Q2</td><td class="header-cell">Q3</td><td class="header-cell">Q4</td><td class="header-cell">Region</td><td class="header-cell">Q3</td></tr>
+        <tr><th>2</th><td>North</td><td class="num">100</td><td class="num">120</td><td class="num">140</td><td class="num">160</td><td>South</td><td class="num formula-cell">130</td></tr>
+        <tr><th>3</th><td>South</td><td class="num">90</td><td class="num">110</td><td class="num">130</td><td class="num">150</td><td></td><td></td></tr>
+        <tr><th>4</th><td>East</td><td class="num">80</td><td class="num">95</td><td class="num">110</td><td class="num">125</td><td></td><td></td></tr>
+        <tr><th>5</th><td>West</td><td class="num">70</td><td class="num">85</td><td class="num">100</td><td class="num">115</td><td></td><td></td></tr>
+      </tbody>
+    </table></div>
+    <div class="xl-result">First MATCH finds row for "South" → 2. Second MATCH finds column for "Q3" → 3. INDEX returns the value at row 2, column 3 of B2:E5 → <strong>130</strong>.</div>
+  </div>
+
+  <h3>VLOOKUP — legacy, still common</h3>
+  <p><code>VLOOKUP(lookup, table, col_index, [range_lookup])</code>. Looks in the <em>first</em> column of <em>table</em>; returns the value <em>col_index</em> columns to the right.</p>
+
+  <div class="callout callout-warn">
+    <div class="callout-title">Always pass FALSE</div>
+    <code>=VLOOKUP(A1,Tbl,3,FALSE)</code> — always supply <code>FALSE</code> (or <code>0</code>) as the last argument. The default is <code>TRUE</code> = approximate match, requires sorted data, and returns silently wrong answers when given unsorted data. This has destroyed careers.
+  </div>
+
+  <div class="xl-example">
+    <div class="xl-example-label"><span>Example · VLOOKUP for an exact match</span><span class="xl-tab">VLookup</span></div>
+    <div class="xl-formula-bar">
+      <div class="xl-name-box">E2</div>
+      <div class="xl-fx">fx</div>
+      <div class="xl-formula-text">=VLOOKUP(D2, A2:B5, 2, FALSE)</div>
+    </div>
+    <div class="xl-grid-wrap"><table class="xl-grid">
+      <thead><tr><th></th><th>A</th><th>B</th><th>C</th><th>D</th><th>E</th></tr></thead>
+      <tbody>
+        <tr><th>1</th><td class="header-cell">Code</td><td class="header-cell">Name</td><td></td><td class="header-cell">Code</td><td class="header-cell">Name</td></tr>
+        <tr><th>2</th><td>US</td><td>United States</td><td></td><td>JP</td><td class="formula-cell">Japan</td></tr>
+        <tr><th>3</th><td>UK</td><td>United Kingdom</td><td></td><td></td><td></td></tr>
+        <tr><th>4</th><td>JP</td><td>Japan</td><td></td><td></td><td></td></tr>
+        <tr><th>5</th><td>FR</td><td>France</td><td></td><td></td><td></td></tr>
+      </tbody>
+    </table></div>
+  </div>
+
+  <h3>XMATCH — position-only lookup</h3>
+  <p>Like <code>MATCH</code> but with the same modern flags as <code>XLOOKUP</code>. Returns the <em>position</em> of a value in an array.</p>
+  <p><span class="xl-mini"><code>=XMATCH("Q3",B1:E1)</code><span class="arr">→</span><span class="res">3</span></span> <span class="xl-mini"><code>=XMATCH(75,A1:A100,1)</code><span class="arr">→</span><span class="res">first ≥75</span></span></p>
+
+  <h3>CHOOSE &amp; CHOOSEROWS / CHOOSECOLS</h3>
+  <p><code>CHOOSE(idx, v1, v2, …)</code> picks by index. Modern siblings <code>CHOOSEROWS</code> / <code>CHOOSECOLS</code> pick rows/columns from an array — including by negative indices to count from the end.</p>
+  <p><span class="xl-mini"><code>=CHOOSE(2,"red","blue","green")</code><span class="arr">→</span><span class="res">blue</span></span></p>
+</section>
+
+<section id="ch-12" class="chapter">
+  <div class="chapter-head"><span class="chapter-num">CHAPTER 12</span><h2>Sort, Filter &amp; Find</h2><span class="tag tag-beginner">Beginner</span></div>
+
+  <h3>Sorting</h3>
+  <p><em>Data → Sort</em> opens the multi-level dialog. Always select your data first (or a single cell inside a contiguous block — Excel auto-detects the range).</p>
+  <table class="ref">
+    <thead><tr><th>Sort by</th><th>Notes</th></tr></thead>
+    <tbody>
+      <tr><td>Values</td><td>A→Z, Z→A, smallest/largest, oldest/newest.</td></tr>
+      <tr><td>Cell color / Font color</td><td>Useful for visually flagged data.</td></tr>
+      <tr><td>Custom list</td><td>Define orders like Mon, Tue, Wed, … or Critical, High, Med, Low.</td></tr>
+      <tr><td>Multi-level</td><td>Add levels for tie-breakers.</td></tr>
+    </tbody>
+  </table>
+
+  <h3>AutoFilter</h3>
+  <p><kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>L</kbd> toggles AutoFilter. Click a header arrow to filter that column. Multiple columns combine as AND.</p>
+
+  <h3>Advanced Filter</h3>
+  <p><em>Data → Advanced</em>. Filter in place or copy results elsewhere. The criteria are written in cells — multiple rows = OR, multiple columns in one row = AND. Powerful for complex queries that AutoFilter can't express.</p>
+
+  <h3>Find &amp; Replace</h3>
+  <table class="ref">
+    <thead><tr><th>Tip</th><th>How</th></tr></thead>
+    <tbody>
+      <tr><td>Find within selection</td><td>Select first, then <kbd>Ctrl</kbd>+<kbd>F</kbd>.</td></tr>
+      <tr><td>Wildcards</td><td><code>*</code> any chars, <code>?</code> single char. Escape with <code>~</code>.</td></tr>
+      <tr><td>Match case / whole cell</td><td>Click <em>Options</em> in the dialog.</td></tr>
+      <tr><td>Find by format</td><td>Click format dropdown in dialog — find every red cell.</td></tr>
+      <tr><td>Across all sheets</td><td>Set <em>Within</em> = Workbook.</td></tr>
+      <tr><td>Replace formulas vs values</td><td><em>Look in</em> = Formulas (the underlying text) or Values (the displayed result).</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section id="ch-13" class="chapter">
+  <div class="chapter-head"><span class="chapter-num">CHAPTER 13</span><h2>Data Validation</h2><span class="tag tag-intermediate">Intermediate</span></div>
+  <p>Restrict what users can type. <em>Data → Data Validation</em>.</p>
+
+  <h3>Built-in rules</h3>
+  <table class="ref">
+    <thead><tr><th>Allow</th><th>Use case</th></tr></thead>
+    <tbody>
+      <tr><td>Whole / Decimal number</td><td>Min/max bounds for quantities.</td></tr>
+      <tr><td>Date / Time</td><td>Must fall in a window.</td></tr>
+      <tr><td>Text length</td><td>Codes must be exactly N characters.</td></tr>
+      <tr><td>List</td><td>Drop-down — type comma-separated, or point at a range.</td></tr>
+      <tr><td>Custom (formula)</td><td>Anything else expressible as a TRUE/FALSE formula.</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Drop-down list</h3>
+  <p>Set <em>Allow</em> = List, then either type values <code>Red,Blue,Green</code> or reference a range <code>=$F$1:$F$10</code>. For dynamic lists, point at an Excel Table column or use <code>=UNIQUE(Data!A:A)</code> on a helper sheet and reference its spill range with <code>F1#</code>.</p>
+
+  <h3>Custom formula validation</h3>
+  <p>The formula must return TRUE for valid input. Excel evaluates it with the typed value in the active cell.</p>
+  <table class="ref">
+    <thead><tr><th>Goal</th><th>Formula</th></tr></thead>
+    <tbody>
+      <tr><td>Force unique values in column A</td><td><code>=COUNTIF($A:$A,A1)=1</code></td></tr>
+      <tr><td>Only weekdays</td><td><code>=WEEKDAY(A1,2)&lt;6</code></td></tr>
+      <tr><td>Email-shaped text</td><td><code>=ISNUMBER(SEARCH("?@?.?",A1))</code></td></tr>
+      <tr><td>Sum cap (B2 sum ≤ 100)</td><td><code>=SUM($B$2:$B$10)&lt;=100</code></td></tr>
+    </tbody>
+  </table>
+
+  <h3>Catch invalid existing data</h3>
+  <p><em>Data → Data Validation → Circle Invalid Data</em>. Excel draws red ovals around every cell that violates the rule — even cells filled <em>before</em> the rule existed.</p>
+</section>
+
+<section id="ch-14" class="chapter">
+  <div class="chapter-head"><span class="chapter-num">CHAPTER 14</span><h2>Excel Tables</h2><span class="tag tag-intermediate">Intermediate</span></div>
+  <p>Convert any range to a Table with <kbd>Ctrl</kbd>+<kbd>T</kbd>. Tables are the most underused feature in Excel. They give you:</p>
+  <ul>
+    <li><strong>Auto-expanding ranges.</strong> Add a row at the bottom — formulas, formatting, and validation extend automatically.</li>
+    <li><strong>Structured references.</strong> Formulas read like English: <code>=SUM(Sales[Amount])</code> instead of <code>=SUM(C2:C1000)</code>.</li>
+    <li><strong>Total row.</strong> Click any cell in the table → <em>Table Design → Total Row</em>. Each column gets a dropdown for Sum/Avg/Count/etc.</li>
+    <li><strong>Banded rows, header lock</strong> on scroll, slicers (Excel 2013+).</li>
+  </ul>
+
+  <h3>Structured reference syntax</h3>
+  <p>Suppose you have a table named <code>Sales</code> with columns <code>Region</code>, <code>Product</code>, <code>Amount</code>:</p>
+  <table class="ref">
+    <thead><tr><th>Reference</th><th>Means</th></tr></thead>
+    <tbody>
+      <tr><td><code>Sales[Amount]</code></td><td>Entire Amount column (data, no header).</td></tr>
+      <tr><td><code>Sales[#Headers]</code></td><td>Header row only.</td></tr>
+      <tr><td><code>Sales[#Totals]</code></td><td>Total row only.</td></tr>
+      <tr><td><code>Sales[#All]</code></td><td>Entire table including headers and totals.</td></tr>
+      <tr><td><code>Sales[@Amount]</code></td><td>Current row's Amount (use inside table formulas).</td></tr>
+      <tr><td><code>Sales[[Region]:[Amount]]</code></td><td>All columns from Region to Amount.</td></tr>
+    </tbody>
+  </table>
+
+  <div class="xl-example">
+    <div class="xl-example-label"><span>Example · structured reference inside a table</span><span class="xl-tab">Sales (Table)</span></div>
+    <div class="xl-formula-bar">
+      <div class="xl-name-box">D2</div>
+      <div class="xl-fx">fx</div>
+      <div class="xl-formula-text">=Sales[@Amount]*1.1</div>
+    </div>
+    <div class="xl-grid-wrap"><table class="xl-grid">
+      <thead><tr><th></th><th>A</th><th>B</th><th>C</th><th>D</th></tr></thead>
+      <tbody>
+        <tr><th>1</th><td class="header-cell">Region</td><td class="header-cell">Product</td><td class="header-cell">Amount</td><td class="header-cell">+10%</td></tr>
+        <tr><th>2</th><td>North</td><td>Widget</td><td class="num">100</td><td class="num formula-cell">110</td></tr>
+        <tr><th>3</th><td>South</td><td>Widget</td><td class="num">150</td><td class="num formula-cell">165</td></tr>
+        <tr><th>4</th><td>East</td><td>Gadget</td><td class="num">200</td><td class="num formula-cell">220</td></tr>
+      </tbody>
+    </table></div>
+    <div class="xl-result">Add a new row below — the formula in column D appears <em>automatically</em>. No drag-fill, no broken ranges.</div>
+  </div>
+
+  <div class="callout callout-tip">
+    <div class="callout-title">Always name your tables</div>
+    Default names are <code>Table1</code>, <code>Table2</code>, etc. Click in the table → <em>Table Design</em> → <em>Table Name</em> → rename to something meaningful. Future-you will thank you.
+  </div>
+</section>
+
+<section id="ch-15" class="chapter">
+  <div class="chapter-head"><span class="chapter-num">CHAPTER 15</span><h2>Conditional Formatting</h2><span class="tag tag-intermediate">Intermediate</span></div>
+  <p>Make data tell its story visually. <em>Home → Conditional Formatting</em>.</p>
+
+  <h3>Built-in rule types</h3>
+  <table class="ref">
+    <thead><tr><th>Type</th><th>Best for</th></tr></thead>
+    <tbody>
+      <tr><td>Highlight Cell Rules</td><td>Greater than, less than, between, equal to, text contains, dates, duplicates.</td></tr>
+      <tr><td>Top/Bottom Rules</td><td>Top 10, top 10%, above average.</td></tr>
+      <tr><td>Data Bars</td><td>In-cell horizontal bars proportional to value.</td></tr>
+      <tr><td>Color Scales</td><td>Heat maps — gradient based on value.</td></tr>
+      <tr><td>Icon Sets</td><td>Traffic lights, arrows, ratings.</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Formula-based rules — where the power is</h3>
+  <p>Select range, <em>Conditional Formatting → New Rule → Use a formula</em>. Write a formula that returns TRUE for the <em>active cell</em> of the selection (use mixed references). Format applies wherever the formula is TRUE.</p>
+
+  <table class="ref">
+    <thead><tr><th>Goal</th><th>Formula (with selection starting at A2)</th></tr></thead>
+    <tbody>
+      <tr><td>Highlight entire row if column C says "Pending"</td><td><code>=$C2="Pending"</code></td></tr>
+      <tr><td>Mark duplicates beyond first occurrence</td><td><code>=COUNTIF($A$2:$A2,$A2)&gt;1</code></td></tr>
+      <tr><td>Highlight weekend dates in column A</td><td><code>=WEEKDAY($A2,2)&gt;5</code></td></tr>
+      <tr><td>Flag cells exceeding adjacent budget</td><td><code>=$B2&gt;$C2</code></td></tr>
+      <tr><td>Highlight rows where any cell is over 100</td><td><code>=COUNTIF($A2:$Z2,"&gt;100")&gt;0</code></td></tr>
+    </tbody>
+  </table>
+
+  <div class="callout callout-tip">
+    <div class="callout-title">The dollar-sign rule</div>
+    Lock the column with <code>$</code> when you want the rule to evaluate the same column for every row in the selection. <code>$C2</code> means "always look at column C, but the row floats with the selection." This is <em>the</em> trick that makes "highlight whole row" work.
+  </div>
+</section>
+
+<!-- ============= PART IV — ANALYSIS ============= -->
+<div id="part-4" class="part-divider">
+  <span class="part-num">PART IV</span>
+  <span class="part-title">Analysis</span>
+</div>
+
+<section id="ch-16" class="chapter">
+  <div class="chapter-head"><span class="chapter-num">CHAPTER 16</span><h2>PivotTables</h2><span class="tag tag-intermediate">Intermediate</span><span class="tag tag-advanced">Advanced</span></div>
+  <p>The single most important analytical feature in Excel. A PivotTable summarizes a table by dragging columns into <em>Rows</em>, <em>Columns</em>, <em>Values</em>, and <em>Filters</em> areas. Excel computes the cross-tab on the fly.</p>
+
+  <h3>Workflow</h3>
+  <ol>
+    <li>Click anywhere in your source data (Tables strongly preferred).</li>
+    <li><em>Insert → PivotTable</em>. Choose location.</li>
+    <li>Drag fields from the field list:
+      <ul>
+        <li><strong>Rows</strong> — categories down the left.</li>
+        <li><strong>Columns</strong> — categories across the top.</li>
+        <li><strong>Values</strong> — what to aggregate (Sum/Count/Avg/etc.).</li>
+        <li><strong>Filters</strong> — top-of-pivot dropdowns.</li>
+      </ul>
+    </li>
+    <li>Click any value → <em>Value Field Settings</em> to change aggregation or "Show Values As" (% of total, running total, % of parent, rank, etc.).</li>
+  </ol>
+
+  <div class="xl-example">
+    <div class="xl-example-label"><span>Source data → PivotTable result</span><span class="xl-tab">Source</span></div>
+    <div class="xl-grid-wrap"><table class="xl-grid">
+      <thead><tr><th></th><th>A</th><th>B</th><th>C</th></tr></thead>
+      <tbody>
+        <tr><th>1</th><td class="header-cell">Region</td><td class="header-cell">Product</td><td class="header-cell">Amount</td></tr>
+        <tr><th>2</th><td>North</td><td>Widget</td><td class="num">100</td></tr>
+        <tr><th>3</th><td>North</td><td>Gadget</td><td class="num">200</td></tr>
+        <tr><th>4</th><td>South</td><td>Widget</td><td class="num">150</td></tr>
+        <tr><th>5</th><td>South</td><td>Gadget</td><td class="num">120</td></tr>
+        <tr><th>6</th><td>North</td><td>Widget</td><td class="num">200</td></tr>
+        <tr><th>7</th><td>South</td><td>Widget</td><td class="num">180</td></tr>
+      </tbody>
+    </table></div>
+  </div>
+
+  <div class="xl-example">
+    <div class="xl-example-label"><span>Drag Region → Rows · Product → Columns · Amount → Values (Sum)</span><span class="xl-tab">Pivot</span></div>
+    <div class="xl-grid-wrap"><table class="xl-grid">
+      <thead><tr><th></th><th>A</th><th>B</th><th>C</th><th>D</th></tr></thead>
+      <tbody>
+        <tr><th>1</th><td class="header-cell">Sum of Amount</td><td class="header-cell">Gadget</td><td class="header-cell">Widget</td><td class="header-cell">Grand Total</td></tr>
+        <tr><th>2</th><td class="header-cell">North</td><td class="num formula-cell">200</td><td class="num formula-cell">300</td><td class="num formula-cell">500</td></tr>
+        <tr><th>3</th><td class="header-cell">South</td><td class="num formula-cell">120</td><td class="num formula-cell">330</td><td class="num formula-cell">450</td></tr>
+        <tr><th>4</th><td class="header-cell">Grand Total</td><td class="num formula-cell">320</td><td class="num formula-cell">630</td><td class="num formula-cell">950</td></tr>
+      </tbody>
+    </table></div>
+    <div class="xl-result">No formulas needed. Drag fields, drop, done. Right-click any value → <em>Show Values As → % of Grand Total</em> for proportional view.</div>
+  </div>
+
+  <h3>Slicers &amp; Timelines</h3>
+  <p><em>PivotTable Analyze → Insert Slicer</em>. Slicers are visual filter buttons that look great and connect to multiple pivots from the same source. Timelines are the date equivalent — a horizontal time-range scrubber.</p>
+
+  <h3>Calculated Fields &amp; Calculated Items</h3>
+  <p><em>PivotTable Analyze → Fields, Items &amp; Sets → Calculated Field</em>. Add a derived column without modifying the source: <code>=Profit/Revenue</code>. Available in field list like any other field.</p>
+
+  <h3>GETPIVOTDATA</h3>
+  <p>When you click on a pivot value to reference it in a formula, Excel writes <code>GETPIVOTDATA</code> automatically. It survives pivot rearrangement (which a hard-coded reference wouldn't). Toggle off via <em>PivotTable Analyze → Options → Generate GetPivotData</em> if you prefer plain refs.</p>
+
+  <h3>Refresh discipline</h3>
+  <div class="callout callout-warn">
+    <div class="callout-title">Pivots don't auto-refresh</div>
+    Add a row to the source — the pivot doesn't know unless you refresh (<kbd>Alt</kbd>+<kbd>F5</kbd> or <em>PivotTable Analyze → Refresh</em>). Set <em>PivotTable Options → Data → Refresh data when opening the file</em> for safety.
+  </div>
+</section>
+
+<section id="ch-17" class="chapter">
+  <div class="chapter-head"><span class="chapter-num">CHAPTER 17</span><h2>Charts &amp; Visualization</h2><span class="tag tag-intermediate">Intermediate</span></div>
+
+  <h3>Pick the right chart for the job</h3>
+  <table class="ref">
+    <thead><tr><th>Goal</th><th>Use</th></tr></thead>
+    <tbody>
+      <tr><td>Compare categories</td><td>Column or bar.</td></tr>
+      <tr><td>Show trend over time</td><td>Line. Many series → small multiples are clearer than a tangled line chart.</td></tr>
+      <tr><td>Part-to-whole</td><td>Stacked bar. Avoid pie charts beyond 2–3 slices.</td></tr>
+      <tr><td>Distribution</td><td>Histogram, box-and-whisker.</td></tr>
+      <tr><td>Correlation</td><td>Scatter (XY). Add trendline + R² for context.</td></tr>
+      <tr><td>Geographic</td><td>Filled map (requires Power Map or 365 Map chart).</td></tr>
+      <tr><td>Hierarchy</td><td>Treemap, sunburst.</td></tr>
+      <tr><td>Funnel / pipeline</td><td>Funnel chart.</td></tr>
+      <tr><td>Cumulative growth</td><td>Area or waterfall.</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Sparklines</h3>
+  <p><em>Insert → Sparkline</em>. Single-cell mini-charts (line, column, win/loss). Perfect for dashboards where a column of trends is worth more than a single big chart.</p>
+
+  <h3>Combo charts &amp; secondary axis</h3>
+  <p><em>Insert → Combo Chart</em>. Mix line + column when units differ (e.g., revenue $ as bars, growth % as line on secondary axis). Right-click a series → <em>Format Data Series → Secondary Axis</em>.</p>
+
+  <h3>Make it readable</h3>
+  <ul>
+    <li>Remove chartjunk: gridlines, 3-D effects, default titles. <em>Less ink, more data.</em></li>
+    <li>Sort categorical bars by value, not alphabetically (unless reading order matters).</li>
+    <li>Direct-label series rather than relying on a legend.</li>
+    <li>Start the y-axis at zero for bars; line charts can start elsewhere if change is the focus.</li>
+    <li>Choose colorblind-safe palettes (Excel's "Office 2013-2022" theme covers this).</li>
+  </ul>
+</section>
+
+<section id="ch-18" class="chapter">
+  <div class="chapter-head"><span class="chapter-num">CHAPTER 18</span><h2>What-If Analysis</h2><span class="tag tag-advanced">Advanced</span></div>
+  <p>Tools under <em>Data → What-If Analysis</em> let you reverse-engineer a model: instead of "what's the result given these inputs?" they answer "what input gives this result?"</p>
+
+  <h3>Goal Seek</h3>
+  <p>Given a formula cell and a target value, find the input. Single variable only.</p>
+  <div class="xl-example">
+    <div class="xl-example-label"><span>Example · find the price needed to hit $1,000 profit</span><span class="xl-tab">GoalSeek</span></div>
+    <div class="xl-grid-wrap"><table class="xl-grid">
+      <thead><tr><th></th><th>A</th><th>B</th></tr></thead>
+      <tbody>
+        <tr><th>1</th><td class="header-cell">Price</td><td class="num input-cell">10</td></tr>
+        <tr><th>2</th><td class="header-cell">Cost</td><td class="num">6</td></tr>
+        <tr><th>3</th><td class="header-cell">Units</td><td class="num">200</td></tr>
+        <tr><th>4</th><td class="header-cell">Profit (=(B1-B2)*B3)</td><td class="num formula-cell">800</td></tr>
+      </tbody>
+    </table></div>
+    <div class="xl-result"><em>Data → What-If Analysis → Goal Seek</em>. Set cell: <code>B4</code>, To value: <code>1000</code>, By changing: <code>B1</code>. Excel iterates and writes <strong>$11.00</strong> into B1.</div>
+  </div>
+
+  <h3>Data Tables — sensitivity in one shot</h3>
+  <p>One-variable or two-variable tables show how a result changes across a grid of inputs.</p>
+  <ol>
+    <li>Build a model with one or two key inputs and one output cell.</li>
+    <li>Set up a grid: input values down a column (or across a row).</li>
+    <li>Top-left corner cell = formula that points at the output cell.</li>
+    <li>Select the entire grid (including the empty corner) → <em>Data → What-If Analysis → Data Table</em>.</li>
+    <li>Excel asks "Row input cell" and "Column input cell" — point at the actual model inputs that should receive the grid values.</li>
+  </ol>
+
+  <h3>Scenario Manager</h3>
+  <p>Save named sets of input values (Best Case, Worst Case, Plan B). Switch between them with one click; produce a summary report comparing all scenarios side by side. Great for board presentations.</p>
+
+  <h3>Solver</h3>
+  <p>Enable from <em>File → Options → Add-ins → Solver Add-in</em>. Then <em>Data → Solver</em>. Optimization with multiple variables and constraints — linear, non-linear, integer programming.</p>
+  <table class="ref">
+    <thead><tr><th>Component</th><th>What it is</th></tr></thead>
+    <tbody>
+      <tr><td>Set Objective</td><td>The cell to maximize, minimize, or hit an exact value.</td></tr>
+      <tr><td>By Changing Variable Cells</td><td>The decision variables.</td></tr>
+      <tr><td>Subject to the Constraints</td><td>Inequalities or equalities the variables must satisfy.</td></tr>
+      <tr><td>Solving Method</td><td>Simplex LP (linear), GRG Nonlinear, Evolutionary (non-smooth).</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- ============= PART V — MODERN EXCEL ============= -->
+<div id="part-5" class="part-divider">
+  <span class="part-num">PART V</span>
+  <span class="part-title">Modern Excel (Microsoft 365)</span>
+</div>
+
+<section id="ch-19" class="chapter">
+  <div class="chapter-head"><span class="chapter-num">CHAPTER 19</span><h2>Dynamic Arrays &amp; Spill</h2><span class="tag tag-advanced">Advanced</span></div>
+  <p>Microsoft 365's biggest formula engine upgrade in 30 years. A formula that returns multiple values <em>spills</em> into adjacent empty cells. Reference the entire spill range with the address of the source cell plus a hash: <code>A1#</code>.</p>
+
+  <div class="callout callout-info">
+    <div class="callout-title">The #SPILL! error</div>
+    A spilling formula needs the destination cells empty. If anything blocks the spill range, you get <code>#SPILL!</code>. Click the formula to see ghost-outlined target cells; clear them and the formula fills in.
+  </div>
+
+  <h3>The seven core dynamic-array functions</h3>
+  <table class="ref">
+    <thead><tr><th>Function</th><th>What it does</th></tr></thead>
+    <tbody>
+      <tr><td><code>SORT(array, [col], [order])</code></td><td>Sort by a column; <code>1</code> = ascending, <code>-1</code> = descending.</td></tr>
+      <tr><td><code>SORTBY(array, by1, ord1, …)</code></td><td>Sort by a separate (possibly external) array.</td></tr>
+      <tr><td><code>FILTER(array, include, [if_empty])</code></td><td>Keep rows where include = TRUE.</td></tr>
+      <tr><td><code>UNIQUE(array, [by_col], [exactly_once])</code></td><td>Distinct values; flag returns only items that appear once.</td></tr>
+      <tr><td><code>SEQUENCE(rows, [cols], [start], [step])</code></td><td>Generate a numeric sequence array.</td></tr>
+      <tr><td><code>RANDARRAY(rows, [cols], [min], [max], [int])</code></td><td>Random matrix; <code>int</code> = TRUE for integers.</td></tr>
+      <tr><td><code>TRANSPOSE(array)</code></td><td>Swap rows and columns.</td></tr>
+    </tbody>
+  </table>
+
+  <div class="xl-example">
+    <div class="xl-example-label"><span>Example · FILTER + SORT chained</span><span class="xl-tab">Filter</span></div>
+    <div class="xl-formula-bar">
+      <div class="xl-name-box">E2</div>
+      <div class="xl-fx">fx</div>
+      <div class="xl-formula-text">=SORT(FILTER(A2:C7, B2:B7&gt;100, "none"), 3, -1)</div>
+    </div>
+    <div class="xl-grid-wrap"><table class="xl-grid">
+      <thead><tr><th></th><th>A</th><th>B</th><th>C</th><th>D</th><th>E</th><th>F</th><th>G</th></tr></thead>
+      <tbody>
+        <tr><th>1</th><td class="header-cell">Region</td><td class="header-cell">Units</td><td class="header-cell">Revenue</td><td></td><td class="header-cell">Region</td><td class="header-cell">Units</td><td class="header-cell">Revenue</td></tr>
+        <tr><th>2</th><td>North</td><td class="num">120</td><td class="num">2400</td><td></td><td class="formula-cell">East</td><td class="num spill-cell">220</td><td class="num spill-cell">3300</td></tr>
+        <tr><th>3</th><td>South</td><td class="num">80</td><td class="num">1600</td><td></td><td class="spill-cell">North</td><td class="num spill-cell">120</td><td class="num spill-cell">2400</td></tr>
+        <tr><th>4</th><td>East</td><td class="num">220</td><td class="num">3300</td><td></td><td class="spill-cell">West</td><td class="num spill-cell">150</td><td class="num spill-cell">2250</td></tr>
+        <tr><th>5</th><td>West</td><td class="num">150</td><td class="num">2250</td><td></td><td></td><td></td><td></td></tr>
+        <tr><th>6</th><td>North</td><td class="num">90</td><td class="num">1800</td><td></td><td></td><td></td><td></td></tr>
+        <tr><th>7</th><td>South</td><td class="num">60</td><td class="num">1200</td><td></td><td></td><td></td><td></td></tr>
+      </tbody>
+    </table></div>
+    <div class="xl-result">FILTER keeps only rows where Units &gt; 100 → 3 rows. SORT then orders by column 3 (Revenue) descending. One formula in <strong>E2</strong>; the rest is spill.</div>
+  </div>
+
+  <h3>Array-shaping functions (added 2022+)</h3>
+  <table class="ref">
+    <thead><tr><th>Function</th><th>Purpose</th></tr></thead>
+    <tbody>
+      <tr><td><code>TAKE(arr, rows, [cols])</code></td><td>First/last N rows or columns (negative = from end).</td></tr>
+      <tr><td><code>DROP(arr, rows, [cols])</code></td><td>Drop N rows/cols (negative = from end).</td></tr>
+      <tr><td><code>CHOOSEROWS(arr, r1, r2, …)</code></td><td>Pick specific rows by index.</td></tr>
+      <tr><td><code>CHOOSECOLS(arr, c1, c2, …)</code></td><td>Pick specific columns by index.</td></tr>
+      <tr><td><code>VSTACK(a1, a2, …)</code></td><td>Stack vertically — append rows.</td></tr>
+      <tr><td><code>HSTACK(a1, a2, …)</code></td><td>Stack horizontally — append columns.</td></tr>
+      <tr><td><code>TOROW / TOCOL(arr, [ignore])</code></td><td>Flatten a 2-D array to one row/column.</td></tr>
+      <tr><td><code>WRAPROWS / WRAPCOLS(arr, n)</code></td><td>Reshape a 1-D array into rows or columns of N.</td></tr>
+      <tr><td><code>EXPAND(arr, rows, [cols], [pad])</code></td><td>Pad an array out to specific dimensions.</td></tr>
+    </tbody>
+  </table>
+
+  <div class="xl-example">
+    <div class="xl-example-label"><span>Example · stack three monthly tables, then keep top 5</span><span class="xl-tab">Stack</span></div>
+    <div class="xl-formula-bar">
+      <div class="xl-name-box">G2</div>
+      <div class="xl-fx">fx</div>
+      <div class="xl-formula-text">=TAKE(SORT(VSTACK(Jan,Feb,Mar), 2, -1), 5)</div>
+    </div>
+    <div class="xl-result">VSTACK appends Feb under Jan, then Mar — assuming each is a named range or table column. SORT by column 2 descending, TAKE the first 5 rows. Result is a tidy top-5 leaderboard across months — written as one formula.</div>
+  </div>
+</section>
+
+<section id="ch-20" class="chapter">
+  <div class="chapter-head"><span class="chapter-num">CHAPTER 20</span><h2>LET &amp; LAMBDA</h2><span class="tag tag-advanced">Advanced</span><span class="tag tag-expert">Expert</span></div>
+
+  <h3>LET — name intermediate values</h3>
+  <p><code>LET(name1, value1, name2, value2, …, calculation)</code>. Pairs of name / value, then a final expression. Like <code>let</code> in functional languages — variables are immutable within the formula.</p>
+
+  <div class="xl-example">
+    <div class="xl-example-label"><span>Example · LET makes a complex formula readable</span><span class="xl-tab">LET</span></div>
+    <div class="xl-formula-bar">
+      <div class="xl-name-box">B2</div>
+      <div class="xl-fx">fx</div>
+      <div class="xl-formula-text">=LET(price,A2, qty,B2, tax,0.085, subtotal,price*qty, subtotal*(1+tax))</div>
+    </div>
+    <div class="xl-grid-wrap"><table class="xl-grid">
+      <thead><tr><th></th><th>A</th><th>B</th><th>C</th></tr></thead>
+      <tbody>
+        <tr><th>1</th><td class="header-cell">Price</td><td class="header-cell">Qty</td><td class="header-cell">Total w/ tax</td></tr>
+        <tr><th>2</th><td class="num">19.99</td><td class="num">3</td><td class="num formula-cell">65.07</td></tr>
+      </tbody>
+    </table></div>
+    <div class="xl-result">Without LET: <code>=A2*B2*(1+0.085)</code> — short but opaque. With LET: each piece is named, and any intermediate (like <code>subtotal</code>) is computed once even if used many times.</div>
+  </div>
+
+  <h3>LAMBDA — your own functions, in pure formula</h3>
+  <p><code>LAMBDA(param1, param2, …, calculation)</code>. Define a reusable function and store it as a Named Range (<em>Formulas → Name Manager</em>). After saving with name <code>MyFn</code>, call it as <code>=MyFn(args)</code>.</p>
+
+  <div class="xl-example">
+    <div class="xl-example-label"><span>Example · save as Name "FullPrice"</span><span class="xl-tab">Lambda</span></div>
+    <div class="xl-formula-bar">
+      <div class="xl-name-box">FullPrice</div>
+      <div class="xl-fx">fx</div>
+      <div class="xl-formula-text">=LAMBDA(price, qty, [taxRate], price*qty*(1+IF(ISOMITTED(taxRate),0.085,taxRate)))</div>
+    </div>
+    <div class="xl-result">Then anywhere: <code>=FullPrice(19.99, 3)</code> → 65.07, or <code>=FullPrice(19.99, 3, 0.10)</code> with a different rate. <code>ISOMITTED</code> handles optional arguments.</div>
+  </div>
+
+  <h3>Helper functions for LAMBDA</h3>
+  <p>These take a LAMBDA as one argument and apply it to an array — the building blocks of array programming in Excel.</p>
+  <table class="ref">
+    <thead><tr><th>Function</th><th>Behavior</th></tr></thead>
+    <tbody>
+      <tr><td><code>MAP(arr1, [arr2…], lambda)</code></td><td>Apply lambda to each element (or aligned tuples). Returns same shape.</td></tr>
+      <tr><td><code>REDUCE(init, arr, lambda)</code></td><td>Fold left. Lambda gets <code>(accumulator, value)</code>, returns new accumulator.</td></tr>
+      <tr><td><code>SCAN(init, arr, lambda)</code></td><td>Like REDUCE but returns every intermediate — running totals, cumulative anything.</td></tr>
+      <tr><td><code>BYROW(arr, lambda)</code></td><td>Reduce each row to one value via lambda.</td></tr>
+      <tr><td><code>BYCOL(arr, lambda)</code></td><td>Same, by column.</td></tr>
+      <tr><td><code>MAKEARRAY(rows, cols, lambda)</code></td><td>Build array; lambda gets <code>(row, col)</code> → cell value.</td></tr>
+    </tbody>
+  </table>
+
+  <div class="xl-example">
+    <div class="xl-example-label"><span>Example · running total with SCAN</span><span class="xl-tab">Scan</span></div>
+    <div class="xl-formula-bar">
+      <div class="xl-name-box">B2</div>
+      <div class="xl-fx">fx</div>
+      <div class="xl-formula-text">=SCAN(0, A2:A6, LAMBDA(acc, v, acc+v))</div>
+    </div>
+    <div class="xl-grid-wrap"><table class="xl-grid">
+      <thead><tr><th></th><th>A</th><th>B</th></tr></thead>
+      <tbody>
+        <tr><th>1</th><td class="header-cell">Daily</td><td class="header-cell">Running total</td></tr>
+        <tr><th>2</th><td class="num">10</td><td class="num formula-cell">10</td></tr>
+        <tr><th>3</th><td class="num">15</td><td class="num spill-cell">25</td></tr>
+        <tr><th>4</th><td class="num">8</td><td class="num spill-cell">33</td></tr>
+        <tr><th>5</th><td class="num">22</td><td class="num spill-cell">55</td></tr>
+        <tr><th>6</th><td class="num">5</td><td class="num spill-cell">60</td></tr>
+      </tbody>
+    </table></div>
+    <div class="xl-result">Replaces the classic <code>=SUM($A$2:A2)</code> dragged down — now a single spilling formula.</div>
+  </div>
+
+  <h3>Recursive LAMBDA</h3>
+  <p>A named LAMBDA can call itself by name. Standard caveats: needs a base case, watch the depth.</p>
+
+  <div class="xl-example">
+    <div class="xl-example-label"><span>Example · save as Name "Factorial"</span><span class="xl-tab">Recursive</span></div>
+    <div class="xl-formula-bar">
+      <div class="xl-name-box">Factorial</div>
+      <div class="xl-fx">fx</div>
+      <div class="xl-formula-text">=LAMBDA(n, IF(n&lt;=1, 1, n*Factorial(n-1)))</div>
+    </div>
+    <div class="xl-result">Then <code>=Factorial(6)</code> → <strong>720</strong>. Useful for tree traversal, parsing, anything inherently recursive.</div>
+  </div>
+</section>
+
+<section id="ch-21" class="chapter">
+  <div class="chapter-head"><span class="chapter-num">CHAPTER 21</span><h2>Power Query (Get &amp; Transform)</h2><span class="tag tag-advanced">Advanced</span></div>
+  <p>Power Query is Excel's ETL engine — connect to data sources, transform with a recorded GUI, refresh on demand. The recorded steps are stored as <strong>M code</strong>. Far more powerful than formulas for cleaning, joining, and reshaping data.</p>
+
+  <h3>Workflow</h3>
+  <ol>
+    <li><em>Data → Get Data → From File / Database / Web / Other Sources</em>.</li>
+    <li>The Power Query Editor opens. Each transformation is recorded as a step in <em>Applied Steps</em>.</li>
+    <li><em>Close &amp; Load</em> writes results to a sheet, a Table, the Data Model, or just a connection.</li>
+    <li>To refresh: <em>Data → Refresh All</em> or <kbd>Ctrl</kbd>+<kbd>Alt</kbd>+<kbd>F5</kbd>.</li>
+  </ol>
+
+  <h3>Common transformations</h3>
+  <table class="ref">
+    <thead><tr><th>Task</th><th>Where</th></tr></thead>
+    <tbody>
+      <tr><td>Promote first row to headers</td><td><em>Home → Use First Row as Headers</em>.</td></tr>
+      <tr><td>Change column type</td><td>Click the data-type icon left of the header.</td></tr>
+      <tr><td>Remove duplicates / empty / errors</td><td><em>Home → Remove Rows</em>.</td></tr>
+      <tr><td>Split column</td><td><em>Transform → Split Column</em> (delimiter, position, char count).</td></tr>
+      <tr><td>Unpivot wide → tall</td><td>Select columns to unpivot → <em>Transform → Unpivot Columns</em>.</td></tr>
+      <tr><td>Pivot tall → wide</td><td><em>Transform → Pivot Column</em>.</td></tr>
+      <tr><td>Merge queries</td><td><em>Home → Merge Queries</em> — left/inner/full outer joins.</td></tr>
+      <tr><td>Append queries</td><td><em>Home → Append Queries</em> — UNION ALL across multiple sources.</td></tr>
+      <tr><td>Group By</td><td><em>Transform → Group By</em> — like SQL GROUP BY.</td></tr>
+      <tr><td>Conditional column</td><td><em>Add Column → Conditional Column</em> — visual if/else builder.</td></tr>
+    </tbody>
+  </table>
+
+  <h3>The M language — under the hood</h3>
+  <p>Click <em>Home → Advanced Editor</em> to see the M code. It's a functional, case-sensitive expression language. Even if you don't write M from scratch, reading it helps debug recorded steps.</p>
+
+  <div class="xl-example">
+    <div class="xl-example-label"><span>Example · skeletal M query</span><span class="xl-tab">M code</span></div>
+    <div style="padding:12px;background:#fff;border-top:1px solid #E1DFDD;font-family:var(--font-mono);font-size:12px;line-height:1.6;color:#242424;white-space:pre">let
+    Source = Csv.Document(File.Contents("C:\data\sales.csv")),
+    Promoted = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+    Typed = Table.TransformColumnTypes(Promoted,{{"Date", type date}, {"Amount", Currency.Type}}),
+    Filtered = Table.SelectRows(Typed, each [Amount] &gt; 100),
+    Grouped = Table.Group(Filtered, {"Region"}, {{"Total", each List.Sum([Amount]), Currency.Type}})
+in
+    Grouped</div>
+    <div class="xl-result">Each step references the result of the previous one. <code>each</code> introduces a row-context lambda. <code>let … in</code> is the only block structure.</div>
+  </div>
+
+  <div class="callout callout-tip">
+    <div class="callout-title">Power Query vs Formulas</div>
+    Use Power Query for <em>shaping</em> data — joins, deduplication, type changes, pivots/unpivots. Use formulas for downstream calculations on the cleaned table. The two work in tandem.
+  </div>
+</section>
+
+<section id="ch-22" class="chapter">
+  <div class="chapter-head"><span class="chapter-num">CHAPTER 22</span><h2>Power Pivot &amp; DAX</h2><span class="tag tag-advanced">Advanced</span><span class="tag tag-expert">Expert</span></div>
+  <p>Power Pivot adds an in-memory data model to Excel: relationships between tables, hundreds of millions of rows, and a calculation language called DAX. Same engine as Power BI.</p>
+
+  <h3>The data model</h3>
+  <ul>
+    <li>Load multiple tables (Power Query → "Add to Data Model" on load).</li>
+    <li>Define relationships in <em>Power Pivot → Manage → Diagram View</em> — drag from foreign key to primary key.</li>
+    <li>Build PivotTables that span tables — no more flattening with VLOOKUP.</li>
+  </ul>
+
+  <h3>Measures vs Calculated Columns</h3>
+  <table class="ref">
+    <thead><tr><th></th><th>Calculated Column</th><th>Measure</th></tr></thead>
+    <tbody>
+      <tr><td>Computed</td><td>Once per row at refresh</td><td>At pivot context, dynamically</td></tr>
+      <tr><td>Stored</td><td>In the model (uses RAM)</td><td>Not stored (just a formula)</td></tr>
+      <tr><td>Use for</td><td>Categorization, lookups</td><td>Aggregations, ratios, KPIs</td></tr>
+      <tr><td>Defined in</td><td>Power Pivot table view</td><td>Pivot field list, or table view</td></tr>
+    </tbody>
+  </table>
+
+  <h3>DAX essentials</h3>
+  <table class="ref">
+    <thead><tr><th>Function</th><th>Purpose</th></tr></thead>
+    <tbody>
+      <tr><td><code>SUM / AVERAGE / COUNT</code></td><td>Aggregations on columns.</td></tr>
+      <tr><td><code>SUMX(table, expr)</code></td><td>Iterate rows, sum the per-row expression — used for "sum of (qty × price)".</td></tr>
+      <tr><td><code>CALCULATE(expr, filter1, …)</code></td><td>Recompute expr in modified filter context. The heart of DAX.</td></tr>
+      <tr><td><code>FILTER(table, condition)</code></td><td>Returns a virtual sub-table, used inside CALCULATE.</td></tr>
+      <tr><td><code>RELATED(column)</code></td><td>Pull a value from a related (one-side) table.</td></tr>
+      <tr><td><code>RELATEDTABLE(table)</code></td><td>Pull related rows from the many-side.</td></tr>
+      <tr><td><code>DIVIDE(num, den, [alt])</code></td><td>Safe divide that handles 0 cleanly.</td></tr>
+      <tr><td><code>VAR x = … RETURN …</code></td><td>Local variables — like LET in formulas.</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Time intelligence</h3>
+  <p>With a properly marked <em>Date table</em> (Power Pivot → Mark as Date Table), these unlock instantly:</p>
+  <table class="ref">
+    <thead><tr><th>Pattern</th><th>DAX</th></tr></thead>
+    <tbody>
+      <tr><td>Year-to-date</td><td><code>TOTALYTD([Sales], 'Date'[Date])</code></td></tr>
+      <tr><td>Same period last year</td><td><code>CALCULATE([Sales], SAMEPERIODLASTYEAR('Date'[Date]))</code></td></tr>
+      <tr><td>YoY % change</td><td><code>DIVIDE([Sales] - [Sales LY], [Sales LY])</code></td></tr>
+      <tr><td>Rolling 12 months</td><td><code>CALCULATE([Sales], DATESINPERIOD('Date'[Date], LASTDATE('Date'[Date]), -12, MONTH))</code></td></tr>
+    </tbody>
+  </table>
+
+  <h3>Example measure</h3>
+  <div class="xl-example">
+    <div class="xl-example-label"><span>Example · Profit Margin measure with VAR</span><span class="xl-tab">DAX</span></div>
+    <div style="padding:12px;background:#fff;border-top:1px solid #E1DFDD;font-family:var(--font-mono);font-size:12px;line-height:1.6;color:#242424;white-space:pre">Profit Margin :=
+VAR Revenue   = SUM( Sales[Amount] )
+VAR Cost      = SUMX( Sales, Sales[Qty] * RELATED( Products[UnitCost] ) )
+VAR Profit    = Revenue - Cost
+RETURN
+    DIVIDE( Profit, Revenue )</div>
+    <div class="xl-result">Drop this into any pivot — it recomputes for whatever Region/Product/Date slice the user has selected, automatically.</div>
+  </div>
+</section>
+
+<!-- ============= PART VI — AUTOMATION ============= -->
+<div id="part-6" class="part-divider">
+  <span class="part-num">PART VI</span>
+  <span class="part-title">Automation</span>
+</div>
+
+<section id="ch-23" class="chapter">
+  <div class="chapter-head"><span class="chapter-num">CHAPTER 23</span><h2>VBA Foundations</h2><span class="tag tag-advanced">Advanced</span></div>
+  <p>VBA (Visual Basic for Applications) is Excel's built-in macro language. Open the editor with <kbd>Alt</kbd>+<kbd>F11</kbd>. Save your file as <code>.xlsm</code> (macro-enabled).</p>
+
+  <h3>The VBE — what's where</h3>
+  <ul>
+    <li><strong>Project Explorer</strong> (<kbd>Ctrl</kbd>+<kbd>R</kbd>): tree of workbooks, sheets, ThisWorkbook, modules, classes, forms.</li>
+    <li><strong>Code window</strong>: where you write code. Each sheet has its own; standard modules sit under <em>Modules</em>.</li>
+    <li><strong>Properties</strong> (<kbd>F4</kbd>): inspect the selected object.</li>
+    <li><strong>Immediate window</strong> (<kbd>Ctrl</kbd>+<kbd>G</kbd>): a REPL — type <code>?Range("A1").Value</code> and press Enter.</li>
+    <li><strong>Locals</strong>, <strong>Watch</strong>: inspect variables when paused at a breakpoint.</li>
+  </ul>
+
+  <h3>Procedures</h3>
+  <p>Two flavors: <code>Sub</code> (no return value, callable from Excel as a macro) and <code>Function</code> (returns a value, callable from worksheet cells as a UDF).</p>
+
+  <div class="xl-example">
+    <div class="xl-example-label"><span>Example · a Sub and a worksheet Function</span><span class="xl-tab">Module1</span></div>
+    <div style="padding:12px;background:#fff;border-top:1px solid #E1DFDD;font-family:var(--font-mono);font-size:12px;line-height:1.55;color:#242424;white-space:pre">Option Explicit
+
+' Macro: highlight every cell with a number greater than 100
+Sub HighlightLarge()
+    Dim cell As Range
+    For Each cell In Selection
+        If IsNumeric(cell.Value) And cell.Value &gt; 100 Then
+            cell.Interior.Color = RGB(255, 235, 156)
+        End If
+    Next cell
+End Sub
+
+' UDF: usable as =Tax(B2, 0.085) in a worksheet cell
+Function Tax(amount As Double, rate As Double) As Double
+    Tax = amount * rate
+End Function</div>
+    <div class="xl-result"><code>Option Explicit</code> at the top of every module forces variable declaration — turns typos into compile errors instead of silent zeros.</div>
+  </div>
+
+  <h3>Variables &amp; types</h3>
+  <table class="ref">
+    <thead><tr><th>Type</th><th>Range / use</th></tr></thead>
+    <tbody>
+      <tr><td><code>Long</code></td><td>32-bit integer. Use instead of <code>Integer</code> — same speed, larger range.</td></tr>
+      <tr><td><code>Double</code></td><td>64-bit float. Default for currency math too (with rounding discipline).</td></tr>
+      <tr><td><code>String</code></td><td>Text.</td></tr>
+      <tr><td><code>Boolean</code></td><td>True / False.</td></tr>
+      <tr><td><code>Date</code></td><td>Date and time.</td></tr>
+      <tr><td><code>Variant</code></td><td>Anything; default if no type given. Slow; avoid except for arrays from cells.</td></tr>
+      <tr><td><code>Range / Worksheet / Workbook</code></td><td>Excel object types.</td></tr>
+    </tbody>
+  </table>
+
+  <h3>The object hierarchy</h3>
+  <p><code>Application → Workbooks → Worksheets → Range</code>. Most code starts with a Range:</p>
+  <ul>
+    <li><code>Range("A1")</code>, <code>Range("A1:B5")</code>, <code>Range("A1", "B5")</code></li>
+    <li><code>Cells(row, column)</code> — numeric form: <code>Cells(2, 3)</code> = C2.</li>
+    <li><code>Range("A1").Offset(1, 2)</code> — relative.</li>
+    <li><code>Range("A1").Resize(5, 3)</code> — change dimensions.</li>
+    <li><code>Range("A1").CurrentRegion</code> — Ctrl+Shift+8 equivalent.</li>
+    <li><code>Range("A1").End(xlDown)</code> — last non-empty going down (mimics Ctrl+↓).</li>
+  </ul>
+
+  <h3>Control flow</h3>
+  <div class="xl-example">
+    <div class="xl-example-label"><span>Idiomatic patterns</span><span class="xl-tab">VBA</span></div>
+    <div style="padding:12px;background:#fff;border-top:1px solid #E1DFDD;font-family:var(--font-mono);font-size:12px;line-height:1.55;color:#242424;white-space:pre">' Loop the used range
+Dim r As Long, lastRow As Long
+lastRow = Cells(Rows.Count, "A").End(xlUp).Row
+For r = 2 To lastRow
+    Cells(r, "C").Value = Cells(r, "A").Value * Cells(r, "B").Value
+Next r
+
+' Multi-branch
+Select Case score
+    Case Is &gt;= 90 : grade = "A"
+    Case Is &gt;= 80 : grade = "B"
+    Case Else     : grade = "F"
+End Select
+
+' For Each on collections
+Dim ws As Worksheet
+For Each ws In ThisWorkbook.Worksheets
+    Debug.Print ws.Name, ws.UsedRange.Rows.Count
+Next ws
+
+' Do While
+Do While Not IsEmpty(Cells(r, 1))
+    r = r + 1
+Loop</div>
+  </div>
+</section>
+
+<section id="ch-24" class="chapter">
+  <div class="chapter-head"><span class="chapter-num">CHAPTER 24</span><h2>VBA Advanced</h2><span class="tag tag-expert">Expert</span></div>
+
+  <h3>Events — code that fires automatically</h3>
+  <p>Right-click a sheet tab → <em>View Code</em>. The dropdown at the top of the code window lists events for that sheet. Workbook events live under <code>ThisWorkbook</code>.</p>
+  <table class="ref">
+    <thead><tr><th>Event</th><th>Fires when</th></tr></thead>
+    <tbody>
+      <tr><td><code>Worksheet_Change</code></td><td>A cell changes (typed, paste, programmatic).</td></tr>
+      <tr><td><code>Worksheet_SelectionChange</code></td><td>Active cell moves.</td></tr>
+      <tr><td><code>Worksheet_BeforeDoubleClick</code></td><td>User double-clicks. Set <code>Cancel = True</code> to suppress edit mode.</td></tr>
+      <tr><td><code>Workbook_Open</code></td><td>File opens.</td></tr>
+      <tr><td><code>Workbook_BeforeSave</code></td><td>Just before saving. <code>Cancel = True</code> to abort.</td></tr>
+      <tr><td><code>Workbook_BeforeClose</code></td><td>Just before close.</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Error handling</h3>
+  <div class="xl-example">
+    <div class="xl-example-label"><span>The classic pattern</span><span class="xl-tab">ErrHandler</span></div>
+    <div style="padding:12px;background:#fff;border-top:1px solid #E1DFDD;font-family:var(--font-mono);font-size:12px;line-height:1.55;color:#242424;white-space:pre">Sub Process()
+    On Error GoTo Cleanup
+
+    Application.ScreenUpdating = False
+    Application.Calculation = xlCalculationManual
+
+    ' …work…
+
+Cleanup:
+    Application.ScreenUpdating = True
+    Application.Calculation = xlCalculationAutomatic
+    If Err.Number &lt;&gt; 0 Then
+        MsgBox "Error " &amp; Err.Number &amp; ": " &amp; Err.Description
+    End If
+End Sub</div>
+    <div class="xl-result">The cleanup label runs whether the body succeeded or threw — guaranteeing UI flags are restored. Without this you can leave Excel with calc disabled or the screen frozen.</div>
+  </div>
+
+  <h3>Performance — the four switches</h3>
+  <p>Slow VBA is almost always due to per-cell operations. The fix:</p>
+  <ol>
+    <li><code>Application.ScreenUpdating = False</code></li>
+    <li><code>Application.Calculation = xlCalculationManual</code></li>
+    <li><code>Application.EnableEvents = False</code> (when modifying cells inside a Change event)</li>
+    <li><code>Application.DisplayAlerts = False</code> (suppress confirmation popups)</li>
+  </ol>
+  <p>For bulk reads/writes, work through arrays:</p>
+  <div class="xl-example">
+    <div class="xl-example-label"><span>100× speedup: read-modify-write whole arrays</span><span class="xl-tab">FastArray</span></div>
+    <div style="padding:12px;background:#fff;border-top:1px solid #E1DFDD;font-family:var(--font-mono);font-size:12px;line-height:1.55;color:#242424;white-space:pre">Dim data As Variant
+data = Range("A1:C10000").Value     ' one round-trip into a 2-D array
+Dim i As Long
+For i = 1 To UBound(data, 1)
+    data(i, 3) = data(i, 1) * data(i, 2)
+Next i
+Range("A1:C10000").Value = data     ' one round-trip back</div>
+  </div>
+
+  <h3>Class modules &amp; collections</h3>
+  <p>Insert → Class Module. Define properties with <code>Property Get / Let / Set</code>, methods as <code>Sub</code>/<code>Function</code>. Instantiate with <code>Dim x As New ClassName</code>. Use <code>Collection</code> or a <code>Dictionary</code> (Tools → References → Microsoft Scripting Runtime) for keyed lookups.</p>
+
+  <h3>External data</h3>
+  <p>Use ADO for SQL — Tools → References → Microsoft ActiveX Data Objects 6.1 Library. Pattern:</p>
+  <div class="xl-example">
+    <div class="xl-example-label"><span>Pull a recordset to a sheet</span><span class="xl-tab">ADO</span></div>
+    <div style="padding:12px;background:#fff;border-top:1px solid #E1DFDD;font-family:var(--font-mono);font-size:12px;line-height:1.55;color:#242424;white-space:pre">Dim conn As New ADODB.Connection
+Dim rs As New ADODB.Recordset
+conn.Open "Provider=…;Server=…;Database=…;Trusted_Connection=Yes"
+rs.Open "SELECT * FROM dbo.Sales WHERE FY = 2026", conn
+Range("A2").CopyFromRecordset rs
+rs.Close: conn.Close</div>
+  </div>
+</section>
+
+<section id="ch-25" class="chapter">
+  <div class="chapter-head"><span class="chapter-num">CHAPTER 25</span><h2>Office Scripts</h2><span class="tag tag-advanced">Advanced</span></div>
+  <p>Office Scripts is the modern successor to VBA — TypeScript, runs in Excel for the web and desktop, integrates with Power Automate. Use it for cross-platform automation; reach for VBA only when you need its desktop-only object model or a legacy .xlsm.</p>
+
+  <h3>Automate tab</h3>
+  <ul>
+    <li><em>Automate → Record Actions</em> — capture clicks as TypeScript.</li>
+    <li><em>Automate → New Script</em> — write from scratch in the in-browser editor.</li>
+    <li>Run a script from a button, or as a step in a Power Automate flow (e.g., scheduled, or triggered by a new email).</li>
+  </ul>
+
+  <h3>Skeleton script</h3>
+  <div class="xl-example">
+    <div class="xl-example-label"><span>Sum a column and write the result</span><span class="xl-tab">main.ts</span></div>
+    <div style="padding:12px;background:#fff;border-top:1px solid #E1DFDD;font-family:var(--font-mono);font-size:12px;line-height:1.55;color:#242424;white-space:pre">function main(workbook: ExcelScript.Workbook) {
+    const sheet = workbook.getActiveWorksheet();
+    const range = sheet.getRange("B2:B100");
+    const values = range.getValues() as number[][];
+
+    const total = values
+        .flat()
+        .filter(v =&gt; typeof v === "number")
+        .reduce((a, b) =&gt; a + b, 0);
+
+    sheet.getRange("D1").setValue(total);
+}</div>
+    <div class="xl-result">Native TypeScript — modern array methods, type safety, async/await. The <code>main</code> function is the entry point; Power Automate can pass parameters and capture return values.</div>
+  </div>
+
+  <h3>Key API patterns</h3>
+  <table class="ref">
+    <thead><tr><th>Task</th><th>API</th></tr></thead>
+    <tbody>
+      <tr><td>Active sheet</td><td><code>workbook.getActiveWorksheet()</code></td></tr>
+      <tr><td>Range by address</td><td><code>sheet.getRange("A1:C10")</code></td></tr>
+      <tr><td>Used range</td><td><code>sheet.getUsedRange()</code></td></tr>
+      <tr><td>Read values</td><td><code>range.getValues()</code> → 2-D array</td></tr>
+      <tr><td>Write values</td><td><code>range.setValues(array)</code></td></tr>
+      <tr><td>Format</td><td><code>range.getFormat().getFill().setColor("#FFEB9C")</code></td></tr>
+      <tr><td>Tables</td><td><code>sheet.addTable(range, true)</code> / <code>workbook.getTable("Sales")</code></td></tr>
+      <tr><td>PivotTables</td><td><code>workbook.getPivotTables()</code></td></tr>
+    </tbody>
+  </table>
+
+  <div class="callout callout-tip">
+    <div class="callout-title">When to choose which</div>
+    <strong>Office Scripts</strong> for cloud-native, scheduled, web-friendly automation; clean TypeScript; integrates with Power Automate. <strong>VBA</strong> for desktop-only macros, UserForms, and any case needing the full Excel object model. Power Automate can chain both.
+  </div>
+</section>
+
+<!-- ============= PART VII — MASTERY ============= -->
+<div id="part-7" class="part-divider">
+  <span class="part-num">PART VII</span>
+  <span class="part-title">Mastery</span>
+</div>
+
+<section id="ch-26" class="chapter">
+  <div class="chapter-head"><span class="chapter-num">CHAPTER 26</span><h2>Performance &amp; Scale</h2><span class="tag tag-expert">Expert</span></div>
+  <p>Excel can comfortably handle hundreds of thousands of rows when formulas are written well. It crawls when they aren't.</p>
+
+  <h3>Volatile functions — recalc on every change</h3>
+  <p>These force the entire dependent chain to recalculate after <em>any</em> change in the workbook. Use sparingly:</p>
+  <ul>
+    <li><code>NOW()</code>, <code>TODAY()</code>, <code>RAND()</code>, <code>RANDBETWEEN()</code></li>
+    <li><code>OFFSET()</code>, <code>INDIRECT()</code></li>
+    <li><code>CELL()</code>, <code>INFO()</code> with most arguments</li>
+  </ul>
+  <p>Where possible replace <code>OFFSET</code> with <code>INDEX</code> (non-volatile) or use Tables / dynamic-array spill ranges.</p>
+
+  <h3>Calculation modes</h3>
+  <table class="ref">
+    <thead><tr><th>Mode</th><th>How to set</th></tr></thead>
+    <tbody>
+      <tr><td>Automatic</td><td>Default. Recalc on every change.</td></tr>
+      <tr><td>Automatic except for data tables</td><td>Useful when a Data Table is huge.</td></tr>
+      <tr><td>Manual</td><td><em>Formulas → Calculation Options → Manual</em>. <kbd>F9</kbd> when ready.</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Formula speed tips</h3>
+  <ol>
+    <li><strong>Avoid full-column references</strong> on whole-sheet operations: <code>=SUMIF(A:A,…)</code> scans 1M+ cells. Use Tables or bounded ranges.</li>
+    <li><strong>Replace nested IFs with IFS / SWITCH / lookup tables.</strong></li>
+    <li><strong>Use COUNTIFS / SUMIFS</strong> instead of array formulas for conditional aggregation.</li>
+    <li><strong>Compute once, reference many.</strong> Use LET to name shared subexpressions.</li>
+    <li><strong>Helper columns are free.</strong> A staged calculation with helpers nearly always outperforms a single massive formula.</li>
+    <li><strong>Avoid array formulas across full columns</strong> — they materialize phantom 1M-row arrays.</li>
+    <li><strong>Use binary search</strong> (XLOOKUP search_mode = 2) for sorted lookups in 100k+ row tables.</li>
+    <li><strong>Move ETL to Power Query</strong> — runs once on refresh, not on every recalc.</li>
+  </ol>
+
+  <h3>File size</h3>
+  <ul>
+    <li><strong>Convert legacy .xls to .xlsx</strong> — significantly smaller and safer.</li>
+    <li><strong>Clear lingering formats</strong> beyond the data: <kbd>Ctrl</kbd>+<kbd>End</kbd> jumps to the "last used cell." If that's miles past your real data, delete the empty rows/cols and save.</li>
+    <li><strong>Compress images</strong>: select an image → <em>Picture Format → Compress Pictures → Apply to all</em>.</li>
+    <li><strong>Remove unused styles</strong> with the free <em>XLStylesTool</em> (legacy files accumulate them).</li>
+    <li><strong>Pivot caches</strong> can balloon — share pivot caches between pivots from the same source.</li>
+  </ul>
+</section>
+
+<section id="ch-27" class="chapter">
+  <div class="chapter-head"><span class="chapter-num">CHAPTER 27</span><h2>Errors &amp; Debugging</h2><span class="tag tag-intermediate">Intermediate</span><span class="tag tag-advanced">Advanced</span></div>
+
+  <h3>The error catalog</h3>
+  <table class="ref">
+    <thead><tr><th>Error</th><th>Means</th><th>Common cause</th></tr></thead>
+    <tbody>
+      <tr><td><code>#DIV/0!</code></td><td>Division by zero</td><td>Empty denominator. Wrap with <code>IFERROR</code> or use <code>=IFERROR(num/den, 0)</code>.</td></tr>
+      <tr><td><code>#N/A</code></td><td>Not available</td><td>Lookup couldn't find the value.</td></tr>
+      <tr><td><code>#NAME?</code></td><td>Unknown name</td><td>Misspelled function or named range; missing add-in.</td></tr>
+      <tr><td><code>#NULL!</code></td><td>Empty intersection</td><td>Ranges in an intersection (space operator) don't overlap.</td></tr>
+      <tr><td><code>#NUM!</code></td><td>Bad number</td><td>Math impossible (e.g., <code>=SQRT(-1)</code>) or iteration didn't converge.</td></tr>
+      <tr><td><code>#REF!</code></td><td>Broken reference</td><td>A formula referenced a cell that was deleted.</td></tr>
+      <tr><td><code>#VALUE!</code></td><td>Wrong type</td><td>Text where a number was expected.</td></tr>
+      <tr><td><code>#SPILL!</code></td><td>Spill blocked</td><td>Dynamic-array result has no room — clear the destination cells.</td></tr>
+      <tr><td><code>#CALC!</code></td><td>Calculation engine</td><td>Empty array (e.g., FILTER with no matches and no fallback), nested arrays.</td></tr>
+      <tr><td><code>#GETTING_DATA</code></td><td>Async still running</td><td>Power Query, stocks, geography — wait or refresh.</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Debugging strategy</h3>
+  <ol>
+    <li><strong>Press F2</strong> to enter the formula. Excel highlights every referenced range in color — instant visual audit.</li>
+    <li><strong>Highlight a sub-expression and press F9</strong>. Excel evaluates that fragment in place. <kbd>Esc</kbd> reverts.</li>
+    <li><strong>Formulas → Evaluate Formula</strong>. Step through evaluation one operation at a time.</li>
+    <li><strong>Trace Precedents / Dependents.</strong> Visual arrows show data flow.</li>
+    <li><strong>Show Formulas</strong> (<kbd>Ctrl</kbd>+<kbd>`</kbd>) — see all formulas at once across the sheet.</li>
+    <li><strong>Watch Window</strong> — pin specific cells and watch their values change as you edit.</li>
+    <li><strong>For VBA</strong>: F9 to set a breakpoint, F8 to step, <kbd>Ctrl</kbd>+<kbd>G</kbd> for the Immediate window. Use <code>Debug.Print</code> liberally.</li>
+  </ol>
+
+  <h3>Defensive formulas</h3>
+  <ul>
+    <li>Validate inputs: <code>=IF(B2&lt;=0, "Enter a positive number", calc)</code>.</li>
+    <li>Use <code>IFNA</code> for lookups so genuine errors still surface — masking with <code>IFERROR</code> can hide real bugs.</li>
+    <li>For division: <code>=IFERROR(a/b, 0)</code> or in the data model, the DAX <code>DIVIDE(a, b, 0)</code>.</li>
+    <li>Type-check with <code>ISNUMBER</code> / <code>ISTEXT</code> when reading from external sources.</li>
+  </ul>
+</section>
+
+<section id="ch-28" class="chapter">
+  <div class="chapter-head"><span class="chapter-num">CHAPTER 28</span><h2>Expert Tricks</h2><span class="tag tag-expert">Expert</span></div>
+  <p>The hard-won shortcuts that separate fluent users from everyone else.</p>
+
+  <h3>1 · Multi-cell entry</h3>
+  <p>Select a range, type, and press <kbd>Ctrl</kbd>+<kbd>Enter</kbd> — the same value or formula goes into every cell. With formulas, references stay relative to each cell.</p>
+
+  <h3>2 · Quick fill blanks with the value above</h3>
+  <ol>
+    <li>Select the column.</li>
+    <li><kbd>F5</kbd> → Special → Blanks → OK.</li>
+    <li>Type <code>=</code> and press <kbd>↑</kbd>.</li>
+    <li><kbd>Ctrl</kbd>+<kbd>Enter</kbd>.</li>
+  </ol>
+  <p>Three seconds. Every blank now references the cell above. Paste-special-values to lock it in.</p>
+
+  <h3>3 · Tear off a chart from the data</h3>
+  <p>To make a chart that doesn't break when the source moves, select the chart's data series, press <kbd>F9</kbd> in the formula bar — the references become hard-coded arrays. Now the chart is portable.</p>
+
+  <h3>4 · Camera tool</h3>
+  <p>Customize Quick Access Toolbar → All Commands → <em>Camera</em>. Select a range, click Camera, click elsewhere — you get a live picture of the source. Updates dynamically. Brilliant for dashboards that aggregate views from many sheets.</p>
+
+  <h3>5 · Custom Lists for sorting</h3>
+  <p><em>File → Options → Advanced → Edit Custom Lists</em>. Add domain-specific orderings (priority levels, region order, fiscal months). Then sort by them directly.</p>
+
+  <h3>6 · Format Painter sticky mode</h3>
+  <p>Double-click the Format Painter — it stays active for repeated application. <kbd>Esc</kbd> to release.</p>
+
+  <h3>7 · Quick differences</h3>
+  <p>Select two columns side by side, press <kbd>Ctrl</kbd>+<kbd>\</kbd> — selects every cell that differs from the first column in its row. Tag them with a fill color to spot anomalies.</p>
+
+  <h3>8 · Status bar arithmetic</h3>
+  <p>Right-click the status bar to add Average, Count, Numerical Count, Min, Max, Sum. Select any range and read these instantly without writing a formula.</p>
+
+  <h3>9 · Roman numerals, Greek, and beyond</h3>
+  <p><span class="xl-mini"><code>=ROMAN(2026)</code><span class="arr">→</span><span class="res">MMXXVI</span></span> <span class="xl-mini"><code>=ARABIC("MMXXVI")</code><span class="arr">→</span><span class="res">2026</span></span> <span class="xl-mini"><code>=UNICHAR(9731)</code><span class="arr">→</span><span class="res">☃</span></span></p>
+
+  <h3>10 · ADDRESS &amp; INDIRECT for dynamic ranges</h3>
+  <p><code>ADDRESS(row, col)</code> returns a text address; <code>INDIRECT(text)</code> turns text into a real reference. Useful for sheet-name lookups: <code>=INDIRECT("'"&amp;A1&amp;"'!B2")</code> reads B2 from whichever sheet is named in A1.</p>
+
+  <h3>11 · Hide a sheet "very hidden"</h3>
+  <p>Right-click sheet tab → <em>Hide</em> only hides — anyone can right-click → Unhide. In the VBE (Alt+F11), select the sheet, set <code>Visible</code> property to <code>xlSheetVeryHidden</code>. Now Unhide doesn't even list it; only VBE can show it again.</p>
+
+  <h3>12 · Quick chart with F11</h3>
+  <p>Select your data, press <kbd>F11</kbd> — Excel creates a default chart on a new chart sheet. <kbd>Alt</kbd>+<kbd>F1</kbd> embeds it on the current sheet.</p>
+
+  <h3>13 · Convert text-numbers in bulk</h3>
+  <p>Type <code>1</code> in an empty cell. Copy it. Select the rogue text-numbers. <em>Paste Special → Multiply</em>. Excel multiplies each by 1, forcing numeric type.</p>
+
+  <h3>14 · Quick Analysis lens</h3>
+  <p>Select a range — a small icon appears bottom-right. Click it (or <kbd>Ctrl</kbd>+<kbd>Q</kbd>) for instant access to formatting, charts, totals, tables, sparklines. Underrated.</p>
+
+  <h3>15 · The N() function</h3>
+  <p><code>N(value)</code> returns 0 for non-numbers but lets you embed comments inside formulas: <code>=A1+B1+N("includes shipping")</code>. Excel ignores the comment text; humans reading the formula don't.</p>
+
+  <div class="callout callout-tip">
+    <div class="callout-title">The most expert habit</div>
+    Build models that explain themselves. Name your tables and ranges. Use LET for clarity. Add a "How this works" sheet with assumptions and source notes. The best Excel work isn't the cleverest formula — it's the one your colleague can pick up six months later and trust.
+  </div>
+</section>
+
+</div><!-- /.content -->
+</main><!-- /.main -->
+</div><!-- /.layout -->
+
+<footer>
+  <div class="colophon">
+    <h4>Microsoft Excel — The Complete Cheatsheet</h4>
+    <p>A reference guide for beginner through expert. From the spreadsheet grid to LAMBDA, from VLOOKUP to DAX, from manual entry to Office Scripts — every concept here is paired with a worked example showing the formula, the data, and the result.</p>
+    <div class="meta-grid">
+      <div>
+        <h4>Coverage</h4>
+        <p>28 chapters · 7 parts · 450+ functions · 200+ shortcuts · 100+ worked examples spanning Microsoft 365 (current), Excel 2024 LTSC, and earlier versions where noted.</p>
+      </div>
+      <div>
+        <h4>Conventions</h4>
+        <p>Green-highlighted cells are formulas; yellow are inputs; pink are errors. Each example shows both the formula in the formula bar and the resulting spreadsheet state.</p>
+      </div>
+      <div>
+        <h4>Edition</h4>
+        <p>2026 · Single-file HTML reference. Print-ready (try it). Open the source to copy any formula or example into your own work.</p>
+      </div>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
