@@ -213,6 +213,78 @@ footer .meta-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:32px;marg
 .intro a:hover {
   opacity: 0.8;
 }
+
+/* ================= MOBILE IMPROVEMENTS ================= */
+
+@media (max-width: 768px) {
+
+  /* Layout padding */
+  .content {
+    padding: 20px 16px 60px;
+  }
+
+  .hero {
+    padding: 28px 16px;
+  }
+
+  /* Typography */
+  .hero h1 {
+    font-size: 24px;
+    line-height: 1.2;
+  }
+
+  .hero p {
+    font-size: 14px;
+  }
+
+  body {
+    font-size: 15px;
+  }
+
+  .chapter h2 {
+    font-size: 20px;
+  }
+
+  .chapter h3 {
+    font-size: 15px;
+  }
+
+  /* Sidebar (better tap + spacing) */
+  .sidebar {
+    padding: 8px 0;
+  }
+
+  .sidebar a {
+    padding: 10px 16px;
+    font-size: 14px;
+    min-height: 36px;
+  }
+
+  /* Tables scroll smoothly */
+  .xl-grid-wrap {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* Prevent text overflow */
+  .content {
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+  }
+}
+
+/* Better tap targets globally */
+a {
+  padding: 2px 0;
+}
+
+.sidebar a.active {
+  background: var(--surface-2);
+  border-left-color: var(--xl-green);
+  color: var(--xl-green);
+  font-weight: 600;
+}
+
 </style>
 </head>
 <body>
